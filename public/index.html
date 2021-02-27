@@ -1,15 +1,33 @@
 
-<div class="login">
-    <h1>Login</h1>
-    <div class="grandParentContaniner">
-        <div class="parentContainer">
-            <form method="post">
-                <input type="text" name="u" placeholder="Username" required="required" />
-                <input type="password" name="p" placeholder="Password" required="required" />
-                <button type="submit" class="btn btn-primary btn-block btn-large">Submit.</button>
-            </form>
+<!doctype html>
+<html>
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:500' rel='stylesheet' type='text/css'>
+    </head>
+ 
+    <body>
+    <div class="login">
+        <div class="login-header">
+            <h1>Login</h1>
+        </div>
+        <div class="login-form">
+            <h3>Username:</h3>
+            <input type="text" placeholder="Username" /><br>
+            <h3>Password:</h3>
+            <input type="password" placeholder="Password" />
+            <br>
+            <input type="button" value="Login" class="login-button" />
+            <br>
+            <a class="sign-up">Sign Up!</a>
+            <br>
+            <h6 class="no-access">Can't access your account?</h6>
         </div>
     </div>
-</div>
+    <div class="error-page">
+        <div class="try-again">Error: Try again?</div>
+    </div>
+    </body>
+
+</html>
 
 
