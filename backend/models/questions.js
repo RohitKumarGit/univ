@@ -15,6 +15,7 @@ const QuestionSchema = new mongoose.Schema({
         max:20,
         default:5
     },
+    tags:[String],
     student : {
         type :id ,
         ref :"Student"
