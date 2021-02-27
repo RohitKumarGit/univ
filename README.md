@@ -31,6 +31,24 @@ Bulit Under  "Let's Connect Track" for HackVerse 2.0
 ### Native Mobile App 
 - Flutter
 
+### Steps to run Locally
+
+## Main Server 
+```
+npm i
+```
+```
+node index.js
+```
+## University's Website end
+```
+npm run serve
+```
+## For the flutter app 
+
+```
+npm run serve
+```
 ![Instagram Post – 1](https://user-images.githubusercontent.com/59276987/109385463-0c746f80-791a-11eb-89d9-33a60c133527.png)
 
 
