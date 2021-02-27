@@ -10,7 +10,6 @@ class Session {
     @required this.maxAttendees,
     @required this.done,
     @required this.cancelled,
-    @required this.credits,
   });
 
   final String title;
@@ -21,5 +20,31 @@ class Session {
   final int maxAttendees;
   final bool done;
   final bool cancelled;
+}
+
+class TeachingSession extends Session {
+  TeachingSession({
+    String title,
+    String link,
+    int ratings,
+    List<String> tags,
+    DateTime dateTime,
+    int maxAttendees,
+    bool done,
+    bool cancelled,
+    @required this.credits,
+    @required this.student,
+  }) : super(
+    title: title,
+    link: link,
+    ratings: ratings,
+    tags: tags,
+    dateTime: dateTime,
+    maxAttendees: maxAttendees,
+    done: done,
+    cancelled: cancelled,
+  );
+
   final int credits;
+  final String student;
 }

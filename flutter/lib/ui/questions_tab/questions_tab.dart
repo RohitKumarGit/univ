@@ -39,7 +39,6 @@ class QuestionsTab extends StatelessWidget {
                 child: ListView.builder(
                   physics: const AlwaysScrollableScrollPhysics(
                       parent: BouncingScrollPhysics()),
-                  shrinkWrap: true,
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   itemCount: questions.length,
                   itemBuilder: (context, i) {

@@ -38,7 +38,6 @@ class NotesTab extends StatelessWidget {
                 child: ListView.builder(
                   physics: const AlwaysScrollableScrollPhysics(
                       parent: BouncingScrollPhysics()),
-                  shrinkWrap: true,
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   itemCount: notes.length,
                   itemBuilder: (context, i) {

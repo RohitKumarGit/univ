@@ -56,7 +56,27 @@ class Repo {
           maxAttendees: 10,
           done: true,
           cancelled: false,
+        ),
+    ];
+  }
+
+  var teachingSessions = <TeachingSession>[];
+
+  Future<List<TeachingSession>> fetchTeachingSessions() async {
+    await Future.delayed(const Duration(seconds: 2));
+    return teachingSessions = [
+      for (var i = 0; i < 10; ++i)
+        TeachingSession(
+          title: 'Good title legal definition of good title',
+          link: 'some-link',
+          ratings: 5,
+          tags: ['flutter', 'react', 'android', 'ruby'],
+          dateTime: DateTime.now(),
+          maxAttendees: 10,
+          done: true,
+          cancelled: false,
           credits: i,
+          student: 'Navaneeth',
         ),
     ];
   }

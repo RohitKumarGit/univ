@@ -52,3 +52,34 @@ class SessionsBloc extends Bloc<SessionsEvent, SessionsState> {
     yield const SessionsState.initial();
   } 
 }
+
+class TeachingSessionsBloc extends Bloc<SessionsEvent, SessionsState> {
+  TeachingSessionsBloc({
+    @required Repo repo,
+  })  : assert(repo != null),
+        _repo = repo,
+        super(const SessionsState.initial());
+
+  final Repo _repo;
+
+  @override
+  Stream<SessionsState> mapEventToState(SessionsEvent event) {
+    return event.map(
+      fetch: _fetch,
+      refresh: _refresh,
+    );
+  }
+
+  Stream<SessionsState> _fetch(_Fetch event) async* {
+    yield const SessionsState.loading();
+    await _repo.fetchTeachingSessions();
+    yield const SessionsState.initial();
+  }
+
+  Stream<SessionsState> _refresh(_Refresh event) async* {
+    yield const SessionsState.refreshing();
+    await _repo.fetchTeachingSessions();
+    event.completer.complete();
+    yield const SessionsState.initial();
+  } 
+}

@@ -44,6 +44,11 @@ class MyApp extends StatelessWidget {
               )..add(const SessionsEvent.fetch()),
             ),
             BlocProvider(
+              create: (context) => TeachingSessionsBloc(
+                repo: context.read<Repo>(),
+              )..add(const SessionsEvent.fetch()),
+            ),
+            BlocProvider(
               create: (context) => QuestionsBloc(
                 repo: context.read<Repo>(),
               )..add(const QuestionsEvent.fetch()),
