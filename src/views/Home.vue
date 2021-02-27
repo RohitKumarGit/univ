@@ -9,13 +9,39 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
   data(){
     return {
       data :[{
-        name
+        name:"Rohit Kumar",
+        roll:"2019UCS2001",
+        credits :100
+      }],
+      columns :[{
+        field:"name",
+        label:"NAME",
+        searchable:true
+      },{
+        field:"roll",
+        label:"ROLL NUMBER",
+        searchable:true
+      },{
+        field:"credits",
+        label:"CURRENT CREDITS",
+        searchable:true,
+        numeric:true
       }]
     }
+  },
+  methods:{
+    async getData(){
+      const {data} = await axios.get('https://hackverse.herokuapp.com/api/student/all')
+      console.log(data)
+    }
+  },
+  created(){
+    this.getData()
   }
 }
 </script>

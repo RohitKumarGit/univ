@@ -57,6 +57,10 @@ Router.post('/answer',async (req,res)=>{
         res.status(400).send()
     }
 })
+Router.get('/hack',async (req,res)=>{
+    const  q = await Question.find()
+    res.send(q)
+})
 Router.get('/',async (req,res)=>{
     try {
         const questions = await Question.find({

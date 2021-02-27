@@ -21,6 +21,7 @@ var QuestionSchema = new mongoose.Schema({
     type: id,
     ref: "Student"
   },
+  name: String,
   univ: {
     type: id,
     ref: "University"

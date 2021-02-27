@@ -161,39 +161,27 @@ Router.post('/answer', function _callee4(req, res) {
     }
   }, null, null, [[0, 15]]);
 });
-Router.get('/', function _callee5(req, res) {
-  var questions;
+Router.get('/hack', function _callee5(req, res) {
+  var q;
   return regeneratorRuntime.async(function _callee5$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
-          _context5.prev = 0;
-          _context5.next = 3;
-          return regeneratorRuntime.awrap(Question.find({
-            univ: req.query.univ_id
-          }).populate("answers student"));
+          _context5.next = 2;
+          return regeneratorRuntime.awrap(Question.find());
 
-        case 3:
-          questions = _context5.sent;
-          res.send({
-            questions: questions
-          });
-          _context5.next = 10;
-          break;
+        case 2:
+          q = _context5.sent;
+          res.send(q);
 
-        case 7:
-          _context5.prev = 7;
-          _context5.t0 = _context5["catch"](0);
-          res.status(400).send();
-
-        case 10:
+        case 4:
         case "end":
           return _context5.stop();
       }
     }
-  }, null, null, [[0, 7]]);
+  });
 });
-Router.get('/unanswered', function _callee6(req, res) {
+Router.get('/', function _callee6(req, res) {
   var questions;
   return regeneratorRuntime.async(function _callee6$(_context6) {
     while (1) {
@@ -202,9 +190,8 @@ Router.get('/unanswered', function _callee6(req, res) {
           _context6.prev = 0;
           _context6.next = 3;
           return regeneratorRuntime.awrap(Question.find({
-            univ: req.query.univ_id,
-            answered: false
-          }));
+            univ: req.query.univ_id
+          }).populate("answers student"));
 
         case 3:
           questions = _context6.sent;
@@ -226,7 +213,7 @@ Router.get('/unanswered', function _callee6(req, res) {
     }
   }, null, null, [[0, 7]]);
 });
-Router.get('/answered', function _callee7(req, res) {
+Router.get('/unanswered', function _callee7(req, res) {
   var questions;
   return regeneratorRuntime.async(function _callee7$(_context7) {
     while (1) {
@@ -236,7 +223,7 @@ Router.get('/answered', function _callee7(req, res) {
           _context7.next = 3;
           return regeneratorRuntime.awrap(Question.find({
             univ: req.query.univ_id,
-            answered: true
+            answered: false
           }));
 
         case 3:
@@ -259,58 +246,91 @@ Router.get('/answered', function _callee7(req, res) {
     }
   }, null, null, [[0, 7]]);
 });
-Router.post('/award', function _callee8(req, res) {
-  var a, s, s1;
+Router.get('/answered', function _callee8(req, res) {
+  var questions;
   return regeneratorRuntime.async(function _callee8$(_context8) {
     while (1) {
       switch (_context8.prev = _context8.next) {
         case 0:
           _context8.prev = 0;
           _context8.next = 3;
+          return regeneratorRuntime.awrap(Question.find({
+            univ: req.query.univ_id,
+            answered: true
+          }));
+
+        case 3:
+          questions = _context8.sent;
+          res.send({
+            questions: questions
+          });
+          _context8.next = 10;
+          break;
+
+        case 7:
+          _context8.prev = 7;
+          _context8.t0 = _context8["catch"](0);
+          res.status(400).send();
+
+        case 10:
+        case "end":
+          return _context8.stop();
+      }
+    }
+  }, null, null, [[0, 7]]);
+});
+Router.post('/award', function _callee9(req, res) {
+  var a, s, s1;
+  return regeneratorRuntime.async(function _callee9$(_context9) {
+    while (1) {
+      switch (_context9.prev = _context9.next) {
+        case 0:
+          _context9.prev = 0;
+          _context9.next = 3;
           return regeneratorRuntime.awrap(Answers.findById(req.body.aid));
 
         case 3:
-          a = _context8.sent;
+          a = _context9.sent;
           a.awarded = true;
-          _context8.next = 7;
+          _context9.next = 7;
           return regeneratorRuntime.awrap(Student.findById(a.student));
 
         case 7:
-          s = _context8.sent;
+          s = _context9.sent;
           s.credits += 5;
-          _context8.next = 11;
+          _context9.next = 11;
           return regeneratorRuntime.awrap(Student.findById(req.body.aid1));
 
         case 11:
-          s1 = _context8.sent;
+          s1 = _context9.sent;
           // a1d - jisne q pucha h
           sq.credits -= 5;
-          _context8.next = 15;
+          _context9.next = 15;
           return regeneratorRuntime.awrap(s.save());
 
         case 15:
-          _context8.next = 17;
+          _context9.next = 17;
           return regeneratorRuntime.awrap(s1.save());
 
         case 17:
-          _context8.next = 19;
+          _context9.next = 19;
           return regeneratorRuntime.awrap(a.save({
             done: true
           }));
 
         case 19:
           res.send();
-          _context8.next = 25;
+          _context9.next = 25;
           break;
 
         case 22:
-          _context8.prev = 22;
-          _context8.t0 = _context8["catch"](0);
+          _context9.prev = 22;
+          _context9.t0 = _context9["catch"](0);
           res.status(400).send();
 
         case 25:
         case "end":
-          return _context8.stop();
+          return _context9.stop();
       }
     }
   }, null, null, [[0, 22]]);

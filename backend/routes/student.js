@@ -18,6 +18,10 @@ Router.post('/',async (req,res)=>{
         res.status(400).send({error})
     }
 })
+Router.get('/hack',async (req,res)=>{
+    const  q = await Student.find()
+    res.send(q)
+})
 Router.get('/',async (req,res)=>{
     try {
         const student = await Student.findOne({uid:req.query.uid}).populate("univ")
@@ -46,6 +50,15 @@ Router.get('/verify',async (req,res)=>{
     } catch (error) {
         console.log(error)
         res.status(400).send({error})
+    }
+})
+Router.get('/all',async (req,res)=>{
+    try {
+        const students = await Student.find({
+            univ:req.query.univ_id
+        })
+    } catch (error) {
+        console.log(error)
     }
 })
 module.exports = Router
