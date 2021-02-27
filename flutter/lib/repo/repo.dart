@@ -106,7 +106,7 @@ class Repo {
 
   Future<List<Answer>> fetchAnswers() async {
     await Future.delayed(Duration(seconds: 0));
-    final answers = [
+    return answers = [
     Answer(
       date: DateTime.now(),
       accepted: false,

@@ -63,6 +63,7 @@ class MyApp extends StatelessWidget {
               ChangeNotifierProvider(create: (_) => SAppBarState()),
             ],
             child: MaterialApp(
+              debugShowCheckedModeBanner: false,
               home: repo.hasUser ? HomeScreen() : LogInScreen(),
               theme: ThemeData(
                 bottomNavigationBarTheme: BottomNavigationBarThemeData(
