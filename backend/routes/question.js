@@ -14,6 +14,7 @@ Router.post('/question',async (req,res)=>{
         const q = await Question.create(req.body)
         res.send({question:q})
     } catch (error) {
+        console.log(error)
         res.status(400).send()
     }
 })
