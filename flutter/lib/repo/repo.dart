@@ -101,4 +101,111 @@ class Repo {
       ),
     ];
   }
+
+  var answers = <Answer>[];
+
+  Future<List<Answer>> fetchAnswers() async {
+    await Future.delayed(Duration(seconds: 0));
+    final answers = [
+    Answer(
+      date: DateTime.now(),
+      accepted: false,
+      id: '1',
+      name: 'Navaneeth',
+      answer: '''(This should've been a comment but there is no formatting)
+
+Use trailing commas in the arguments list.
+
+
+Without trailing commas:
+```
+Foo(arg1: ..., arg2: ...)
+```
+
+
+With trailing commas:
+```
+Foo(
+  arg1: ...,
+  arg2: ..., // notice the comma
+)
+```
+
+for eg.:
+```
+decoration: BoxDecoration(
+  image: DecorationImage(
+    image: AssetImage('assets/\$bgImage'), 
+    fit: BoxFit.cover, // add a comma here
+  ), // add a comma here
+),
+```''',
+    ),
+    Answer(
+      date: DateTime.now(),
+      accepted: true,
+      id: '1',
+      name: 'Navaneeth',
+      answer: '''After deletion `DropdownButton` is given a `value`(`selectedStand`) that none of the `DropdownMenuItem`s contain. So, first check if a document exists whose `id` is `selectedStand` otherwise set `value` to `null`.
+
+```
+// get the document with id as selectedStand. Will be null if it doesn't exist.
+var selectedDoc = snapshot.data.documents.firstWhere(
+  (doc) => doc.documentID == selectedStand,
+  orElse: () => null,
+);
+
+DropdownButton(
+  // assign selectedDoc's id (same as selectedStand) if exists
+  // otherwise null
+  value = selectedDoc?.documentID,
+  // ...
+),
+```
+
+The logic should not be in `onChanged` but outside of `DropdownButton` within the `StreamBuilder`.
+
+```
+selectedDoc = snapshot.data.documents.firstWhere(
+  (doc) => doc.documentID == selectedStand,
+  orElse: () => null,
+);
+
+return Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: <Widget>[
+    DropdownButton(
+      items: standItems,
+      onChanged: (standValue) {
+         setState(() {
+         selectedStand = standValue;
+        });
+      },
+      value: selectedDoc?.documentID,
+      isExpanded: false,
+      hint: new Text(
+        "Choose stand to delete"
+      ),
+   ),
+  ],
+),
+```
+
+Alternatively you could set `selectedStand = selectedDoc?.documentID` right after finding `selectedDoc`, so that `selectedStand` will always have a valid value.''',
+    ),
+    Answer(
+      date: DateTime.now(),
+      accepted: false,
+      id: '1',
+      name: 'Navaneeth',
+      answer: '''Something was changed ,i.e, added, removed, modified
+
+```
+if (snapshot.data.documentChanges.length != 0) {
+  // Some changes were made. Show Indicator
+}
+```''',
+    ),
+  ];
+  }
 }
