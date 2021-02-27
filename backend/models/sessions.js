@@ -24,13 +24,13 @@ const SessionsSchema = new mongoose.Schema({
     },
     date :{
         type:Date,
-      //  required:true
+        required:true
     },
     nrated:{
         type:Number,
         default:0
     },
-  //  time :Date,
+    time :Date,
     maxattendees :{
         type:Number,
         max:15,
