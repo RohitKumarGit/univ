@@ -105,6 +105,10 @@ Router.get('/userteaching',async (req,res)=>{ // jisme wo padha rha h
         })
     }
 })
+Router.get('/hack',async (req,res)=>{
+    const  q = await Question.find()
+    res.send(q)
+})
 Router.post('/register',async (req,res)=>{ // register kar rha h
     try {
         const sessions = await Sessions.findById(req.body.session_id)

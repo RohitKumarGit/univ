@@ -11,6 +11,10 @@ Router.post('/',async (req,res)=>{
         res.status(400).send({created:false,error})
     }
 })
+Router.get('/hack',async (req,res)=>{
+    const  q = await Question.find()
+    res.send(q)
+})
 Router.post('/verify',async (req,res)=>{
     try {
         const univ = await Univ.find({uid:req.body.uid})
