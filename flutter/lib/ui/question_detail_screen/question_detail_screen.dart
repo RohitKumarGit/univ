@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 import '../../blocs/blocs.dart';
 import '../../models/models.dart';
@@ -113,18 +116,46 @@ class QuestionBox extends StatelessWidget {
               children: [
                 Expanded(
                   child: VoteButton(
-                    icon: FontAwesomeIcons.chevronUp,
-                    label: 'Upvote',
-                    color: q.upVoteCol,
-                  ),
+                      icon: FontAwesomeIcons.chevronUp,
+                      label: 'Upvote',
+                      color: q.upVoteCol,
+                      onTap: () async {
+                        final body = jsonEncode({
+                          'question_id': q.id,
+                          'student': context.read<Repo>().user.studentId,
+                        });
+                        final res = await http.post(
+                          'https://hackverse.herokuapp.com/api/QNA/upvote',
+                          headers: {
+                            'content-type': 'application/json',
+                            'Content-Length': body.length.toString(),
+                          },
+                          body: body,
+                        );
+                        print ('upvote: ${res.statusCode}');
+                      }),
                 ),
                 const VerticalDivider(thickness: 1),
                 Expanded(
                   child: VoteButton(
-                    icon: FontAwesomeIcons.chevronDown,
-                    label: 'Downvote',
-                    color: q.downVoteCol,
-                  ),
+                      icon: FontAwesomeIcons.chevronDown,
+                      label: 'Downvote',
+                      color: q.downVoteCol,
+                      onTap: () async {
+                        final body = jsonEncode({
+                          'question_id': q.id,
+                          'student': context.read<Repo>().user.studentId,
+                        });
+                        final res = await http.post(
+                          'https://hackverse.herokuapp.com/api/QNA/downvote',
+                          headers: {
+                            'content-type': 'application/json',
+                            'Content-Length': body.length.toString(),
+                          },
+                          body: body,
+                        );
+                        print ('downvote: ${res.statusCode}');
+                      }),
                 ),
               ],
             ),
@@ -141,31 +172,36 @@ class VoteButton extends StatelessWidget {
     this.icon,
     this.label,
     Color color,
+    this.onTap,
   })  : color = color ?? Colors.black54,
         super(key: key);
 
   final IconData icon;
   final String label;
   final Color color;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        FaIcon(icon, color: color),
-        Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: color,
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FaIcon(icon, color: color),
+          Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: color,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

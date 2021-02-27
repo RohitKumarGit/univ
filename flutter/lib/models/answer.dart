@@ -7,6 +7,7 @@ class Answer {
     @required this.answer,
     @required this.accepted,
     @required this.date,
+    @required this.student,
   });
 
   final String id;
@@ -14,4 +15,5 @@ class Answer {
   final String name;
   final String answer;
   final bool accepted;
+  final String student;
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:univ/repo/repo.dart';
 
 import '../../blocs/blocs.dart';
+import '../../blocs/post_answer_bloc/post_answer_bloc.dart';
 import '../widgets/main_action_button.dart';
 
 class AnswerScreen extends StatelessWidget {
@@ -60,31 +62,52 @@ class AnswerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: bloc,
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.visibility),
-              onPressed: () => _showPreview(context),
-            ),
-            MainActionButton(
-              label: 'Post',
-              onPressed: () {},
-              color: Colors.green,
-            ),
-          ],
+      child: BlocProvider(
+        create: (_) => PostAnswerBloc(
+          repo: context.read<Repo>(),
+          question: bloc.q,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8),
-          child: TextField(
-            controller: controller,
-            autofocus: true,
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Start writing you answer here ...',
+        child: Builder(builder: (context) {
+          return BlocListener<PostAnswerBloc, PostAnswerState>(
+            listener: (context, state) {
+              state.maybeWhen(
+                posted: () => Navigator.of(context).pop(),
+                orElse: () {},
+              );
+            },
+            child: Scaffold(
+              appBar: AppBar(
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.visibility),
+                    onPressed: () => _showPreview(context),
+                  ),
+                  MainActionButton(
+                    label: 'Post',
+                    onPressed: () {
+                      context.read<PostAnswerBloc>().add(PostAnswerEvent.post(
+                            answer: controller.text,
+                            qId: bloc.q.id,
+                          ));
+                    },
+                    color: Colors.green,
+                  ),
+                ],
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(8),
+                child: TextField(
+                  controller: controller,
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Start writing you answer here ...',
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

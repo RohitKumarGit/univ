@@ -115,91 +115,99 @@ class _AskScreenState extends State<AskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Question'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.visibility),
-            onPressed: () => _showPreview(context),
-          ),
-          MainActionButton(
-            label: 'Post',
-            onPressed: _post,
-            color: Colors.green,
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Form(
-                key: _form,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: TextFormField(
-                        onSaved: (v) => _title = v,
-                        validator: (v) => (v?.isNotEmpty ?? false)
-                            ? null
-                            : 'Title Cannot be empty',
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Title',
+    return BlocListener<PostQuestionBloc, PostQuestionState>(
+      listener: (context, state) {
+        state.maybeWhen(
+          posted: () => Navigator.of(context).pop(),
+          orElse: () {}
+        );
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Question'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.visibility),
+              onPressed: () => _showPreview(context),
+            ),
+            MainActionButton(
+              label: 'Post',
+              onPressed: _post,
+              color: Colors.green,
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Form(
+                  key: _form,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: TextFormField(
+                          onSaved: (v) => _title = v,
+                          validator: (v) => (v?.isNotEmpty ?? false)
+                              ? null
+                              : 'Title Cannot be empty',
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Title',
+                          ),
+                          minLines: 2,
+                          maxLines: 10,
                         ),
-                        minLines: 2,
-                        maxLines: 10,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: TextFormField(
-                        onSaved: (v) => _description = v,
-                        validator: (v) => (v?.isNotEmpty ?? false)
-                            ? null
-                            : 'Title Cannot be empty',
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Description',
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: TextFormField(
+                          onSaved: (v) => _description = v,
+                          validator: (v) => (v?.isNotEmpty ?? false)
+                              ? null
+                              : 'Title Cannot be empty',
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Description',
+                          ),
+                          minLines: 7,
+                          maxLines: 10000,
                         ),
-                        minLines: 7,
-                        maxLines: 10000,
                       ),
-                    ),
-                    TagContainer(
-                      tags: _tags,
-                      onTap: _removeTag,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: _tagController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Tag',
+                      TagContainer(
+                        tags: _tags,
+                        onTap: _removeTag,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                controller: _tagController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Tag',
+                                ),
                               ),
                             ),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: _addTag,
-                          ),
-                        ],
+                            IconButton(
+                              icon: const Icon(Icons.add),
+                              onPressed: _addTag,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

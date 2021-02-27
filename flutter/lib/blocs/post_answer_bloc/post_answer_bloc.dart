@@ -16,7 +16,7 @@ abstract class PostAnswerState with _$PostAnswerState {
 
 @freezed 
 abstract class PostAnswerEvent with _$PostAnswerEvent {
-  const factory PostAnswerEvent.post(String answer) = _Post;
+  const factory PostAnswerEvent.post({String answer, String qId}) = _Post;
 }
 
 class PostAnswerBloc extends Bloc<PostAnswerEvent, PostAnswerState> {
@@ -32,7 +32,7 @@ class PostAnswerBloc extends Bloc<PostAnswerEvent, PostAnswerState> {
 
   Stream<PostAnswerState> _post(_Post event) async* {
     yield const PostAnswerState.posting();
-    await repo.postAnswer(event.answer);
+    await repo.postAnswer(event.answer, event.qId);
       yield const PostAnswerState.posted();
   }
 }

@@ -46,6 +46,7 @@ class SessionTile extends StatelessWidget {
       elevation: 3,
       clipBehavior: Clip.antiAlias,
       child: ListTile(
+        onTap: () => Navigator.of(context).push(SessionDetail.route(session)),
         title: Text(session.title),
         leading: CircleAvatar(
           backgroundColor: Colors.accents[_rand.nextInt(Colors.accents.length)]

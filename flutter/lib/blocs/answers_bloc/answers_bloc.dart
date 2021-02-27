@@ -33,6 +33,8 @@ class AnswersBloc extends Bloc<AnswersEvent, AnswersState> {
   final Repo _repo;
   final Question _question;
 
+  Question get q => _question;
+
   @override
   Stream<AnswersState> mapEventToState(AnswersEvent event) {
     return event.map(

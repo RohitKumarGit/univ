@@ -10,7 +10,7 @@ class Question {
     @required this.votes,
     @required this.date,
     @required this.name,
-    @required this.isAnswered,
+    @required bool isAnswered,
     @required this.voted,
     @required this.uid,
     @required this.answersList,
@@ -23,7 +23,6 @@ class Question {
   final int votes;
   final DateTime date;
   final String name;
-  final bool isAnswered;
   final bool voted;
   final List<String> tags;
   final String uid;
@@ -34,4 +33,10 @@ class Question {
   Color get upVoteCol => (voted ?? false) ? Colors.deepOrange : null;
 
   Color get downVoteCol => (voted ?? true) ? null : Colors.deepPurple;
+
+  bool get isAnswered =>
+      answersList.firstWhere(
+        (a) => a.accepted,
+        orElse: () => null,
+      ) ?? false;
 }

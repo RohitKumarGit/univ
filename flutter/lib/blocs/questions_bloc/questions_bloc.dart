@@ -47,8 +47,11 @@ class QuestionsBloc extends Bloc<QuestionsEvent, QuestionsState> {
 
   Stream<QuestionsState> _refresh(_Refresh event) async* {
     yield const QuestionsState.refreshing();
-    await _repo.fetchQuestions();
-    event.completer.complete();
-    yield const QuestionsState.initial();
+    try {
+      await _repo.fetchQuestions();
+      event.completer.complete();
+    } finally {
+      yield const QuestionsState.initial();
+    }
   } 
 }

@@ -11,12 +11,31 @@ class Repo {
 
   bool get hasUser => _user != null;
 
-  Future<void> postAnswer(String answer) async {
-    //TODO: send name in post
-    http.post(
-      Uri.parse('https://hackverse.herokuapp.com/api/QNA/question'),
-      body: jsonEncode({}),
+  Future<void> postAnswer(String answer, String qId) async {
+    final body = jsonEncode({
+      'question_id': qId,
+      'answer': {
+        'desc': answer,
+        'univ': user.univId,
+        'student': user.studentId,
+        'name': user.name,
+      },
+    });
+
+    final response = await http.post(
+      'https://hackverse.herokuapp.com/api/QNA/answer',
+      headers: {
+        'content-type': 'application/json',
+        'Content-Length': body.length.toString(),
+      },
+      body: body,
     );
+
+    if (response.statusCode != 200) {
+      return false;
+    }
+
+    return true;
   }
 
   Future<bool> postQuestion({
@@ -54,8 +73,8 @@ class Repo {
       credits: 100,
       email: 'navaneethp123@outlook.com',
       name: 'Navaneeth P',
-      studentId: '603a9c6e6a47357880ab74b5',
-      univId: '603a5e7bb74ddd2918e7001f',
+      studentId: '603abb7f656a48001587b382',
+      univId: '603abb0b656a48001587b381',
     );
   }
 
@@ -135,46 +154,50 @@ class Repo {
     }
 
     final jsonData = jsonDecode(response.body);
-    final qs = <Question>[];
 
     print(jsonData);
 
-    // for (final jd in jsonData['questions']) {
-    //   final upVotes = jd['upvote'] as List;
-    //   final downVotes = jd['downvote'] as List;
-    //   final votes = upVotes.length - downVotes.length;
-    //   bool voted;
-    //   if (upVotes.contains(user.studentId)) {
-    //     voted = true;
-    //   } else if (downVotes.contains(user.studentId)) {
-    //     voted = false;
-    //   } else {
-    //     voted = null;
-    //   }
-    //   qs.add(Question(
-    //     isAnswered: jd['answered'],
-    //     votes: votes,
-    //     voted: voted,
-    //     answersList: jd['answers'].map<Answer>((ad) {
-    //       return Answer(
-    //         answer: ad['description'],
-    //         date: DateTime.parse(ad['updatedAt']),
-    //         accepted: ad['awarded'],
-    //         name: ad['name'],
-    //         id: ad['_id'],
-    //       );
-    //     }).toList(),
-    //     id: jd['_id'],
-    //     date: DateTime.parse(jd['updatedAt']),
-    //     description: jd['desc'],
-    //     title: jd['title'],
-    //     uid: jd['student']['_id'],
-    //     name: jd['student']['name'],
-    //     tags: jd['tags']
-    //   ));
-    // }
+    final qs = <Question>[];
+
+    for (final jd in jsonData['questions']) {
+      final upVotes = jd['upvote'] as List;
+      final downVotes = jd['downvote'] as List;
+      final votes = upVotes.length - downVotes.length;
+      bool voted;
+      if (upVotes.contains(user.studentId)) {
+        voted = true;
+      } else if (downVotes.contains(user.studentId)) {
+        voted = false;
+      } else {
+        voted = null;
+      }
+      qs.add(Question(
+        isAnswered: jd['answered'],
+        votes: votes,
+        voted: voted,
+        answersList: jd['answers'].map<Answer>((ad) {
+          return Answer(
+            answer: ad['desc'],
+            date: DateTime.parse(ad['updatedAt']),
+            accepted: ad['awarded'] ?? false,
+            name: ad['name'],
+            id: ad['_id'],
+            student: ad['student'],
+          );
+        }).toList(),
+        id: jd['_id'],
+        date: DateTime.parse(jd['updatedAt']),
+        description: jd['desc'],
+        title: jd['title'],
+        uid: jd['student']['_id'],
+        name: jd['student']['name'],
+        tags: jd['tags'].cast<String>(),
+      ));
+    }
     
-    // return questions = qs;
+    print(qs);
+
+    questions = qs;
     return questions;
   }
 

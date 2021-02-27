@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../blocs/blocs.dart';
 import '../../models/models.dart';
 import '../../repo/repo.dart';
+import '../session_detail/session_detail.dart';
 import '../widgets/main_action_button.dart';
 import '../widgets/show_filters.dart';
 import '../widgets/tag_container.dart';

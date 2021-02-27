@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import '../../blocs/blocs.dart';
 import '../../models/models.dart';
@@ -23,7 +26,7 @@ class AnswersList extends StatelessWidget {
             child: Center(child: CircularProgressIndicator()),
           ),
           initial: (state) {
-            final answers = state.answers;
+            final answers = q.answersList;
             return ListView.builder(
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
@@ -73,11 +76,31 @@ class AnswerTile extends StatelessWidget {
               child: MarkdownBody(data: a.answer),
             ),
             Consumer<Repo>(builder: (context, repo, _) {
-              if (!q.isAnswered && repo.hasUser && repo.user.studentId == q.uid) {
+              final isAnswered = q.answersList.firstWhere(
+                (a) => a.accepted,
+                orElse: () => null,
+              );
+              if (!(isAnswered ?? false) && repo.hasUser && repo.user.studentId == q.uid) {
                 return Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final body = jsonEncode({
+                          'aid': a.id,
+                          'student': a.student,
+                          'aid1': context.read<Repo>().user.studentId,
+                        });
+                        print(body);
+                        final res = await http.post(
+                          'https://hackverse.herokuapp.com/api/QNA/award',
+                          headers: {
+                            'content-type': 'application/json',
+                            'Content-Length': body.length.toString(),
+                          },
+                          body: body,
+                        );
+                        print ('accept: ${res.statusCode}');
+                    },
                     child: const Text('Accept'),
                   ),
                 );

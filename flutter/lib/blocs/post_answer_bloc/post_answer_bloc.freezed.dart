@@ -385,9 +385,10 @@ class _$PostAnswerEventTearOff {
   const _$PostAnswerEventTearOff();
 
 // ignore: unused_element
-  _Post post(String answer) {
+  _Post post({String answer, String qId}) {
     return _Post(
-      answer,
+      answer: answer,
+      qId: qId,
     );
   }
 }
@@ -399,14 +400,15 @@ const $PostAnswerEvent = _$PostAnswerEventTearOff();
 /// @nodoc
 mixin _$PostAnswerEvent {
   String get answer;
+  String get qId;
 
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult post(String answer),
+    @required TResult post(String answer, String qId),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult post(String answer),
+    TResult post(String answer, String qId),
     @required TResult orElse(),
   });
   @optionalTypeArgs
@@ -428,7 +430,7 @@ abstract class $PostAnswerEventCopyWith<$Res> {
   factory $PostAnswerEventCopyWith(
           PostAnswerEvent value, $Res Function(PostAnswerEvent) then) =
       _$PostAnswerEventCopyWithImpl<$Res>;
-  $Res call({String answer});
+  $Res call({String answer, String qId});
 }
 
 /// @nodoc
@@ -443,9 +445,11 @@ class _$PostAnswerEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object answer = freezed,
+    Object qId = freezed,
   }) {
     return _then(_value.copyWith(
       answer: answer == freezed ? _value.answer : answer as String,
+      qId: qId == freezed ? _value.qId : qId as String,
     ));
   }
 }
@@ -455,7 +459,7 @@ abstract class _$PostCopyWith<$Res> implements $PostAnswerEventCopyWith<$Res> {
   factory _$PostCopyWith(_Post value, $Res Function(_Post) then) =
       __$PostCopyWithImpl<$Res>;
   @override
-  $Res call({String answer});
+  $Res call({String answer, String qId});
 }
 
 /// @nodoc
@@ -470,23 +474,27 @@ class __$PostCopyWithImpl<$Res> extends _$PostAnswerEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object answer = freezed,
+    Object qId = freezed,
   }) {
     return _then(_Post(
-      answer == freezed ? _value.answer : answer as String,
+      answer: answer == freezed ? _value.answer : answer as String,
+      qId: qId == freezed ? _value.qId : qId as String,
     ));
   }
 }
 
 /// @nodoc
 class _$_Post with DiagnosticableTreeMixin implements _Post {
-  const _$_Post(this.answer) : assert(answer != null);
+  const _$_Post({this.answer, this.qId});
 
   @override
   final String answer;
+  @override
+  final String qId;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PostAnswerEvent.post(answer: $answer)';
+    return 'PostAnswerEvent.post(answer: $answer, qId: $qId)';
   }
 
   @override
@@ -494,7 +502,8 @@ class _$_Post with DiagnosticableTreeMixin implements _Post {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'PostAnswerEvent.post'))
-      ..add(DiagnosticsProperty('answer', answer));
+      ..add(DiagnosticsProperty('answer', answer))
+      ..add(DiagnosticsProperty('qId', qId));
   }
 
   @override
@@ -502,12 +511,16 @@ class _$_Post with DiagnosticableTreeMixin implements _Post {
     return identical(this, other) ||
         (other is _Post &&
             (identical(other.answer, answer) ||
-                const DeepCollectionEquality().equals(other.answer, answer)));
+                const DeepCollectionEquality().equals(other.answer, answer)) &&
+            (identical(other.qId, qId) ||
+                const DeepCollectionEquality().equals(other.qId, qId)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(answer);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(answer) ^
+      const DeepCollectionEquality().hash(qId);
 
   @JsonKey(ignore: true)
   @override
@@ -517,21 +530,21 @@ class _$_Post with DiagnosticableTreeMixin implements _Post {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult post(String answer),
+    @required TResult post(String answer, String qId),
   }) {
     assert(post != null);
-    return post(answer);
+    return post(answer, qId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult post(String answer),
+    TResult post(String answer, String qId),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (post != null) {
-      return post(answer);
+      return post(answer, qId);
     }
     return orElse();
   }
@@ -560,10 +573,12 @@ class _$_Post with DiagnosticableTreeMixin implements _Post {
 }
 
 abstract class _Post implements PostAnswerEvent {
-  const factory _Post(String answer) = _$_Post;
+  const factory _Post({String answer, String qId}) = _$_Post;
 
   @override
   String get answer;
+  @override
+  String get qId;
   @override
   @JsonKey(ignore: true)
   _$PostCopyWith<_Post> get copyWith;
