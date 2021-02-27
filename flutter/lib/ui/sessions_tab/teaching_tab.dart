@@ -3,7 +3,7 @@ part of 'sessions_tab.dart';
 class TeachingTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SessionsBloc, SessionsState>(
+    return BlocBuilder<TeachingSessionsBloc, SessionsState>(
       builder: (context, state) {
         return state.maybeWhen(
           loading: () => const Center(child: CircularProgressIndicator()),
