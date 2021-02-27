@@ -10,6 +10,7 @@ import '../../models/models.dart';
 import '../../repo/repo.dart';
 import '../app_bar_state.dart';
 import '../ask_screen/ask_screen.dart';
+import '../question_detail_screen/question_detail_screen.dart';
 import '../widgets/main_action_button.dart';
 import '../widgets/show_filters.dart';
 import '../widgets/tag_container.dart';
@@ -193,6 +194,7 @@ class QuestionTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ListTile(
+                    onTap: () => Navigator.of(context).push(QuestionDetailScreen.route(q)),
                     leading: FittedBox(
                       child: Column(
                         children: [
