@@ -11,6 +11,7 @@ const Answers = require('../models/answers')
 const Student = require('../models/student')
 Router.post('/question',async (req,res)=>{
     try {
+        console.log(req.body)
         const q = await Question.create(req.body)
         res.send({question:q})
     } catch (error) {

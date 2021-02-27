@@ -22,29 +22,30 @@ Router.post('/question', function _callee(req, res) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          _context.next = 3;
+          console.log(req.body);
+          _context.next = 4;
           return regeneratorRuntime.awrap(Question.create(req.body));
 
-        case 3:
+        case 4:
           q = _context.sent;
           res.send({
             question: q
           });
-          _context.next = 11;
+          _context.next = 12;
           break;
 
-        case 7:
-          _context.prev = 7;
+        case 8:
+          _context.prev = 8;
           _context.t0 = _context["catch"](0);
           console.log(_context.t0);
           res.status(400).send();
 
-        case 11:
+        case 12:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[0, 7]]);
+  }, null, null, [[0, 8]]);
 });
 Router.post('/upvote', function _callee2(req, res) {
   var q;
