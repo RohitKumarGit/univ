@@ -30,3 +30,13 @@ var
 momentDates.sort(sortByTimeAsc);
 //Sort Only Time by Descending Order
 momentDates.sort(sortByTimeDesc); 
+
+sessions.sort( function(s1, s2) {
+  if (s1.ratings === s2.ratings) {
+    return 0;
+  } else if (s1.ratings < s2.ratings) {
+    return -1;
+  } else {
+    return 1;
+  }
+});
