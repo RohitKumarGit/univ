@@ -3,7 +3,7 @@
 Bulit Under  "Let's Connect Track" for HackVerse 2.0 
  ##### ✔ Description  of the problem
  We all students have faced the time when we missed one or two classes due to which we are not able to cope-up with what's going on in the class. Moreover these backlogs keeps getting added and when the D-day (exams) comes we find ourselves in a miserable situation where we know the syllabus but we are actuallly wasting most of our valuable watching number of youtube videos to understand a simple topic or calling the freind who promised to teach that topic at the end but not picking up 😒.
-### ✔  And Here's the solution for everything stated above 😘
+### ✔  And Here's the solution for everything stated above 
 **UNIV** enables "peer to peeer teaching" which in short means that any student can teach one or many students through  **Google Meet** while being moderated by the institute in exchange of **credits** which  could be redeemed as and when he wants in college campus food stalls or during college fests . Adding to this  a student can create online discussion grps where a number of students can join , discuss topic among themselves or with a teacher and get there doubts clear anytime. Any student can upload his notes  in exchange of credit when a student saves that "Note" . So , all in all this hack enables and motivates the student to help other students :)
 
 ### ✔  So here's how it actually works 💻:
