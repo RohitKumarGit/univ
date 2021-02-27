@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../notes_tab/notes_tab.dart';
 import '../profile_tab/profile_screen.dart';
+import '../sessions_tab/sessions_tab.dart';
 import 'tabs.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -24,7 +25,7 @@ class HomeScreen extends StatelessWidget {
           RouteTab(
             label: 'Sessions',
             icon: FontAwesomeIcons.video,
-            build: () => null,
+            build: () => SessionsTab(),
           ),
           RouteTab(
             label: 'Notes',

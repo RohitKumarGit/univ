@@ -40,4 +40,24 @@ class Repo {
         ),
     ];
   }
+
+  var sessions = <Session>[];
+
+  Future<List<Session>> fetchSessions() async {
+    await Future.delayed(const Duration(seconds: 2));
+    return sessions = [
+      for (var i = 0; i < 10; ++i)
+        Session(
+          title: 'Good title legal definition of good title',
+          link: 'some-link',
+          ratings: 5,
+          tags: ['flutter', 'react', 'android', 'ruby'],
+          dateTime: DateTime.now(),
+          maxAttendees: 10,
+          done: true,
+          cancelled: false,
+          credits: i,
+        ),
+    ];
+  }
 }

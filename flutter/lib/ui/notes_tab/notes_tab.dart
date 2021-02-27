@@ -11,51 +11,44 @@ import '../widgets/main_action_button.dart';
 class NotesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (ctx) => NotesBloc(
-        repo: ctx.read<Repo>(),
-      )..add(const NotesEvent.fetch()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Notes'),
-          actions: [
-            // TODO: upload page
-            MainActionButton(
-              label: 'Upload',
-              onPressed: () {},
-              color: Colors.amber,
-            ),
-          ],
-        ),
-        body: Builder(
-          builder: (context) => BlocBuilder<NotesBloc, NotesState>(
-            builder: (context, state) {
-              return state.maybeWhen(
-                loading: () => const Center(child: CircularProgressIndicator()),
-                orElse: () {
-                  final notes = context.watch<Repo>().notes;
-                  return RefreshIndicator(
-                    onRefresh: () {
-                      final c = Completer<void>();
-                      context.read<NotesBloc>().add(NotesEvent.refresh(c));
-                      return c.future;
-                    },
-                    child: ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(
-                          parent: BouncingScrollPhysics()),
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      itemCount: notes.length,
-                      itemBuilder: (context, i) {
-                        return NoteTile(notes[i]);
-                      },
-                    ),
-                  );
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Notes'),
+        actions: [
+          // TODO: upload page
+          MainActionButton(
+            label: 'Upload',
+            onPressed: () {},
+            color: Colors.amber,
+          ),
+        ],
+      ),
+      body: BlocBuilder<NotesBloc, NotesState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            orElse: () {
+              final notes = context.watch<Repo>().notes;
+              return RefreshIndicator(
+                onRefresh: () {
+                  final c = Completer<void>();
+                  context.read<NotesBloc>().add(NotesEvent.refresh(c));
+                  return c.future;
                 },
+                child: ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(
+                      parent: BouncingScrollPhysics()),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  itemCount: notes.length,
+                  itemBuilder: (context, i) {
+                    return NoteTile(notes[i]);
+                  },
+                ),
               );
             },
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -105,32 +98,6 @@ class NoteTile extends StatelessWidget {
                   ),
                 ),
               ),
-              // Expanded(
-              //   child: Padding(
-              //     padding: const EdgeInsets.only(
-              //         top: 2, bottom: 2, left: 4, right: 2),
-              //     child: Column(
-              //       mainAxisAlignment: MainAxisAlignment.start,
-              //       children: [
-              //         Text(
-              //           note.title,
-              //           style: const TextStyle(
-              //             fontSize: 16,
-              //             fontWeight: FontWeight.w500,
-              //           ),
-              //           overflow: TextOverflow.ellipsis,
-              //           maxLines: 2,
-              //         ),
-              //         const SizedBox(height: 2),
-              //         Text(
-              //           note.description,
-              //           overflow: TextOverflow.ellipsis,
-              //           maxLines: 3,
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),

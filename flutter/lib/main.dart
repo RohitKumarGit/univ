@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'blocs/blocs.dart';
 import 'blocs/user_bloc/user_bloc.dart';
 import 'repo/repo.dart';
 import 'ui/home_screen/home_screen.dart';
@@ -30,26 +31,40 @@ class MyApp extends StatelessWidget {
       value: repo,
       child: BlocProvider.value(
         value: userBloc,
-        child: MaterialApp(
-          home: repo.hasUser ? HomeScreen() : LogInScreen(),
-          theme: ThemeData(
-            bottomNavigationBarTheme: BottomNavigationBarThemeData(
-              backgroundColor: Colors.grey.shade100,
-              type: BottomNavigationBarType.fixed,
-              selectedItemColor: Colors.blue.shade700,
-              selectedLabelStyle: const TextStyle(fontSize: 12),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => NotesBloc(
+                repo: context.read<Repo>(),
+              )..add(const NotesEvent.fetch()),
             ),
-            appBarTheme: AppBarTheme(
-              color: Colors.grey.shade100,
-              textTheme: const TextTheme(
-                headline6: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+            BlocProvider(
+              create: (context) => SessionsBloc(
+                repo: context.read<Repo>(),
+              )..add(const SessionsEvent.fetch()),
+            ),
+          ],
+          child: MaterialApp(
+            home: repo.hasUser ? HomeScreen() : LogInScreen(),
+            theme: ThemeData(
+              bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                backgroundColor: Colors.grey.shade100,
+                type: BottomNavigationBarType.fixed,
+                selectedItemColor: Colors.blue.shade700,
+                selectedLabelStyle: const TextStyle(fontSize: 12),
               ),
-              iconTheme: const IconThemeData(
-                color: Colors.black,
+              appBarTheme: AppBarTheme(
+                color: Colors.grey.shade100,
+                textTheme: const TextTheme(
+                  headline6: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                iconTheme: const IconThemeData(
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
