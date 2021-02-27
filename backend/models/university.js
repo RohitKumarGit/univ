@@ -6,6 +6,10 @@ const universitySchema = new mongoose.Schema({
         required:true
     }
     ,
+    students :[{
+        type:id,
+        ref:"Student"
+    }],
     uid :{
         type:String,
         required:true
