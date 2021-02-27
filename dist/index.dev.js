@@ -14,8 +14,6 @@ var path = require('path');
 
 var port = process.env.PORT || 8082;
 
-require('dotenv').config();
-
 var answers = require('./backend/models/answers');
 
 var notes = require('./backend/models/notes');

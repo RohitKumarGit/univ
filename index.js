@@ -5,7 +5,7 @@ app.use(parser.json())
 var morgan = require('morgan')
 const path = require('path')
 const port = process.env.PORT || 8082;
-require('dotenv').config()
+
 const answers = require('./backend/models/answers')
 const notes = require('./backend/models/notes')
 const questions = require('./backend/models/questions')
