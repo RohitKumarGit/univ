@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# UNIV 
+## _University Peer To Peer Teaching Solution_
+Under : "Let's Connect Track"
+ ##### ✔ Description  of the problem
+ We all students have faced the time when we missed one or two classes due to which we are not able to cope-up with what's going on in the class. Moreover these backlogs keeps getting added and when the D-day (exams) comes we find ourselves in a miserable situation where we know the syllabus but we are actuallly wasting most of our valuable watching number of youtube videos to understand a simple topic or calling the freind who promised to teach that topic at the end but not picking up 😒.
+### ✔  And Here's the solution for everything stated above 😘
+**UNIV** enables "peer to peeer teaching" which in short means that any student can teach one or many students through  **Google Meet** being moderated by the institute in exchange of **credits** which  could be redeemed as and when he wants in college campus food stalls or during college fests . Adding to this  a student can create online discussion grps where a number of students can join , discuss topic among themselves or with a teacher and get there doubts clear anytime. Any student can upload his notes on in exchange of credit when a student saves that "Note" . So , all in all this hack enables and motivates the student to help other students :)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### ✔  Ao here's how it actually works 💻:
+- The University creates it's account on the **Web App**
+- University adds his students manually ( Email and Roll Number )
+- Student downloads the App and registered with the Email which is registered with College
+- A Student creates a session on a particular date and time from app with a heading and some tags
+- Other students who want to know about that topic will join the session at that time ( He will  be reminded if he had registered for the session on app )
+- During an active session a moderator can join , check if the session is going well and mark the session as "Completed" on there  **Web App**  after which the session's organizer would get his credits.
+- Apart from mentored sessions a student can also create discussion groups where a number of students can join and discuss a topic among themselves ( No Credit for this )
+- A Student can add notes on his app and  ask for  credit in exchange.
 
-## Available Scripts
+### ✔  Tech Stack we have used ⚙
 
-In the project directory, you can run:
+#### Front End ( University's Web App ):
+- VueJS 
+- Sass/Scss
+- Buefy Framework
+- Firebase Storage and Authentication
+### Back End  ( Hosted on Heroku ):
+- NodeJS
+- Firebase Authentication
+- Express
+- MongoDB ( mongoose ORM )
+### Native Mobile App 
+- Flutter
 
-### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
