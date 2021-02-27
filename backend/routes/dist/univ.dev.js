@@ -48,7 +48,7 @@ Router.get('/hack', function _callee2(req, res) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.next = 2;
-          return regeneratorRuntime.awrap(Question.find());
+          return regeneratorRuntime.awrap(Univ.find());
 
         case 2:
           q = _context2.sent;

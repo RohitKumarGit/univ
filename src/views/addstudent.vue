@@ -6,6 +6,34 @@
         <b-field label="Name">
             <b-input v-model="name"></b-input>
         </b-field>
+        <b-field label="Roll">
+            <b-input v-model="roll"></b-input>
+        </b-field>
+        <b-field label="Email">
+            <b-input v-model="email"></b-input>
+        </b-field>
     </div>
+    <b-button type="is-primary" class="mt-3" on:click="post">POST</b-button>
   </div>
 </template>
+<script>
+
+export default {
+    data(){
+        return {
+            name :"",
+            roll:"",
+            email:""
+        }
+    },
+    methods:{
+        async post(){
+            const data = {
+                name :this.name,
+                roll:this.roll,
+                email:this.roll
+            }
+        }
+    }
+}
+</script>

@@ -12,7 +12,7 @@ Router.post('/',async (req,res)=>{
     }
 })
 Router.get('/hack',async (req,res)=>{
-    const  q = await Question.find()
+    const  q = await Univ.find()
     res.send(q)
 })
 Router.post('/verify',async (req,res)=>{
