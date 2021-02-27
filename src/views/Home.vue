@@ -1,18 +1,21 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <h1 class="is-size-2 has-text-primary has-text-weight-bold">Students</h1>
+    <b-button tag="router-link" to="/add" type="is-success">Add student</b-button>
+       <b-table class="mt-4"
+            :data="data"
+            :columns="columns">
+        </b-table>
   </div>
 </template>
-
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+  data(){
+    return {
+      data :[{
+        name
+      }]
+    }
   }
 }
 </script>

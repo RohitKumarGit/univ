@@ -34,14 +34,14 @@ var QuestionSchema = new mongoose.Schema({
     type: id,
     ref: "Answers"
   }],
-  upvote: {
-    type: Number,
-    "default": 0
-  },
-  downvote: {
-    type: Number,
-    "default": 0
-  },
+  upvote: [{
+    type: id,
+    ref: "Student"
+  }],
+  downvote: [{
+    type: id,
+    ref: "Student"
+  }],
   priority: {
     type: Boolean,
     "default": false

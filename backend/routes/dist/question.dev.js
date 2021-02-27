@@ -59,7 +59,7 @@ Router.post('/upvote', function _callee2(req, res) {
 
         case 3:
           q = _context2.sent;
-          q.upvote += 1;
+          q.upvote.push(req.body.student);
           _context2.next = 7;
           return regeneratorRuntime.awrap(q.save());
 
@@ -94,7 +94,7 @@ Router.post('/downvote', function _callee3(req, res) {
 
         case 3:
           q = _context3.sent;
-          q.downvote += 1;
+          q.downvote.push(req.body.student);
           _context3.next = 7;
           return regeneratorRuntime.awrap(q.save());
 

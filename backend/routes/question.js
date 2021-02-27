@@ -22,7 +22,8 @@ Router.post('/question',async (req,res)=>{
 Router.post('/upvote',async (req,res)=>{
     try {
         const q = await Question.findById(req.body.question_id)
-        q.upvote+=1
+        q.upvote.push(req.body.student)
+
         await q.save()
         res.send({question:q})
     } catch (error) {
@@ -32,7 +33,7 @@ Router.post('/upvote',async (req,res)=>{
 Router.post('/downvote',async (req,res)=>{
     try {
         const q = await Question.findById(req.body.question_id)
-        q.downvote+=1
+       q.downvote.push(req.body.student)
         await q.save()
         res.send({question:q})
     } catch (error) {
