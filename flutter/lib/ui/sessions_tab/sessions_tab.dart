@@ -3,16 +3,19 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:univ/ui/widgets/tag_container.dart';
 
 import '../../blocs/blocs.dart';
 import '../../models/models.dart';
 import '../../repo/repo.dart';
 import '../widgets/main_action_button.dart';
+import '../widgets/show_filters.dart';
+import 's_app_bar_state.dart';
 
-part 'teaching_tab.dart';
 part 'discussion_tab.dart';
+part 'teaching_tab.dart';
 
 class SessionsTab extends StatefulWidget {
   @override
@@ -21,42 +24,110 @@ class SessionsTab extends StatefulWidget {
 
 class _SessionsTabState extends State<SessionsTab>
     with SingleTickerProviderStateMixin {
-  TabController _controller;
-
-  @override
-  void initState() {
-    _controller = TabController(
-      length: 2,
-      vsync: this,
-      initialIndex: 0,
-    );
-    super.initState();
-  }
+  static const _tabs = TabBar(
+    tabs: [
+      Tab(child: Text('Teaching', style: TextStyle(color: Colors.black))),
+      Tab(child: Text('Discussion', style: TextStyle(color: Colors.black))),
+    ],
+  );
 
   @override
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Sessions'),
-          actions: [
-            // TODO: upload page
-            MainActionButton(
-              label: 'Create',
-              onPressed: () {},
-              color: Colors.blue,
+      child: Consumer<SAppBarState>(
+        builder: (context, appBarState, tabViews) {
+          return Scaffold(
+            appBar: PreferredSize(
+              preferredSize:
+                  const Size.fromHeight(kToolbarHeight + kTextTabBarHeight),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 400),
+                child: appBarState.isSearch
+                    ? AppBar(
+                        key: const Key('SearchBar'),
+                        leading: IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () =>
+                              context.read<SAppBarState>().isSearch = false,
+                        ),
+                        title: TextField(
+                          controller: appBarState.textController,
+                          focusNode: appBarState.focusNode,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Text to search',
+                          ),
+                        ),
+                        actions: [
+                          IconButton(
+                            icon: const Icon(Icons.local_offer_outlined),
+                            onPressed: () =>
+                                context.read<SAppBarState>().addTag(),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.search),
+                            onPressed: () {},
+                          ),
+                        ],
+                        bottom: _tabs,
+                      )
+                    : AppBar(
+                        key: const Key('ActionBar'),
+                        title: const Text('Sessions'),
+                        actions: [
+                          IconButton(
+                            icon: const Icon(Icons.tune),
+                            onPressed: () => showFilters(
+                              context,
+                              Consumer<SAppBarState>(
+                                builder: (context, state, _) {
+                                  const filters = SFilter.values;
+                                  return FiltersList(
+                                    filters: filters
+                                        .map(
+                                          (f) => FilterConf(
+                                            value: f,
+                                            icon: f.icon,
+                                            title: f.title,
+                                          ),
+                                        )
+                                        .toList(),
+                                    selectedFilter: state.filter,
+                                    onTap: (f) => state.filter = f,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.search),
+                            onPressed: () =>
+                                context.read<SAppBarState>().isSearch = true,
+                          ),
+                          MainActionButton(
+                            label: 'Create',
+                            onPressed: () {},
+                            color: Colors.blue,
+                          ),
+                        ],
+                        bottom: _tabs,
+                      ),
+              ),
             ),
-          ],
-          bottom: TabBar(
-            tabs: const [
-              Tab(child: Text('Teaching', style: TextStyle(color: Colors.black))),
-              Tab(child: Text('Discussion', style: TextStyle(color: Colors.black))),
-            ],
-          ),
-        ),
-        body: TabBarView(
+            body: Column(
+              children: [
+                TagContainer(
+                  tags: appBarState.tags,
+                  onTap: (t) => context.read<SAppBarState>().removeTag(t),
+                ),
+                Expanded(child: tabViews),
+              ],
+            ),
+          );
+        },
+        child: TabBarView(
           children: [
             TeachingTab(),
             DiscussionTab(),

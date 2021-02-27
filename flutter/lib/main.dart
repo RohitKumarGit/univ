@@ -8,6 +8,7 @@ import 'repo/repo.dart';
 import 'ui/home_screen/home_screen.dart';
 import 'ui/login_screen.dart';
 import 'ui/questions_tab/questions_tab.dart';
+import 'ui/sessions_tab/s_app_bar_state.dart';
 
 void main() {
   final repo = Repo();
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
           child: MultiProvider(
             providers: [
               ChangeNotifierProvider(create: (_) => QAppBarState()),
+              ChangeNotifierProvider(create: (_) => SAppBarState()),
             ],
             child: MaterialApp(
               home: repo.hasUser ? HomeScreen() : LogInScreen(),
