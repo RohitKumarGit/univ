@@ -23,10 +23,6 @@ const QuestionSchema = new mongoose.Schema({
         type:id,
         ref:"University"
     },
-    priority :{
-        type :Boolean,
-        default:false
-    },
     file :{
         type:String,
     

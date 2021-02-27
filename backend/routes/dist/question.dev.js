@@ -123,7 +123,7 @@ Router.post('/answer', function _callee4(req, res) {
         case 0:
           _context4.prev = 0;
           _context4.next = 3;
-          return regeneratorRuntime.awrap(Question.findById(req.body.qid));
+          return regeneratorRuntime.awrap(Question.findById(req.body.question_id));
 
         case 3:
           q = _context4.sent;
@@ -141,7 +141,9 @@ Router.post('/answer', function _callee4(req, res) {
           return regeneratorRuntime.awrap(a.save());
 
         case 12:
-          res.send();
+          res.send({
+            done: true
+          });
           _context4.next = 18;
           break;
 
@@ -290,7 +292,9 @@ Router.post('/award', function _callee8(req, res) {
 
         case 17:
           _context8.next = 19;
-          return regeneratorRuntime.awrap(a.save());
+          return regeneratorRuntime.awrap(a.save({
+            done: true
+          }));
 
         case 19:
           res.send();

@@ -39,7 +39,7 @@ Router.post('/downvote',async (req,res)=>{
 })
 Router.post('/answer',async (req,res)=>{
     try {
-        const q = await Question.findById(req.body.qid)
+        const q = await Question.findById(req.body.question_id)
         const a = await Answers.create(req.body.answer)
         q.answered = true,
         q.answers.push(a._id)
@@ -47,7 +47,9 @@ Router.post('/answer',async (req,res)=>{
        
         await q.save()
         await a.save()
-        res.send()
+        res.send({
+            done:true
+        })
     } catch (error) {
         res.status(400).send()
     }
@@ -94,7 +96,9 @@ Router.post('/award',async (req,res)=>{
         sq.credits -=5
         await s.save()
         await s1.save()
-        await a.save()
+        await a.save({
+            done :true
+        })
         res.send()
     } catch (error) {
         res.status(400).send()
