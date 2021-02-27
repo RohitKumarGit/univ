@@ -18,6 +18,7 @@
 </template>
 <script>
 import axios from 'axios'
+import {mapState} from 'vuex'
 export default {
     data(){
         return {
@@ -26,6 +27,9 @@ export default {
             email:"",
             univ :"abc"
         }
+    },
+    computed:{
+        ...mapState(["univ"])
     },
     methods:{
         async post(){

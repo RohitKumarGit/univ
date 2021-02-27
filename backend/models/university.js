@@ -15,12 +15,10 @@ const universitySchema = new mongoose.Schema({
         required:true
     },
     address :{
-        type:String,
-        required:true
+        type:String
     },
     phone :{
-        type :Number,
-        required:true,
+        type :Number
        
        
     },
@@ -29,8 +27,7 @@ const universitySchema = new mongoose.Schema({
         required:true
     },
     logo :{
-        type:String,
-        required:true
+        type:String
     
     }
 })

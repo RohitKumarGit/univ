@@ -13,6 +13,8 @@ var _Home = _interopRequireDefault(require("../views/Home.vue"));
 
 var _addstudent = _interopRequireDefault(require("@/views/addstudent"));
 
+var _login = _interopRequireDefault(require("@/views/login"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 _vue["default"].use(_vueRouter["default"]);
@@ -28,6 +30,13 @@ var routes = [{
   // this generates a separate chunk (about.[hash].js) for this route
   // which is lazy-loaded when the route is visited.
   component: _addstudent["default"]
+}, {
+  path: '/login',
+  name: 'login',
+  // route level code-splitting
+  // this generates a separate chunk (about.[hash].js) for this route
+  // which is lazy-loaded when the route is visited.
+  component: _login["default"]
 }];
 var router = new _vueRouter["default"]({
   mode: 'history',

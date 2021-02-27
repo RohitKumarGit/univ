@@ -164,19 +164,20 @@ Router.get('/all', function _callee5(req, res) {
 
         case 3:
           students = _context5.sent;
-          _context5.next = 9;
+          res.send(students);
+          _context5.next = 10;
           break;
 
-        case 6:
-          _context5.prev = 6;
+        case 7:
+          _context5.prev = 7;
           _context5.t0 = _context5["catch"](0);
           console.log(_context5.t0);
 
-        case 9:
+        case 10:
         case "end":
           return _context5.stop();
       }
     }
-  }, null, null, [[0, 6]]);
+  }, null, null, [[0, 7]]);
 });
 module.exports = Router;

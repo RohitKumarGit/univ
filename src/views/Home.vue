@@ -10,6 +10,7 @@
 </template>
 <script>
 import axios from 'axios'
+import {mapState} from 'vuex'
 export default {
   data(){
     return {
@@ -34,10 +35,15 @@ export default {
       }]
     }
   },
+  computed:{
+    ...mapState(["univ"])
+  },
   methods:{
     async getData(){
-      const {data} = await axios.get('https://hackverse.herokuapp.com/api/student/all')
-      console.log(data)
+      const {data} = await axios.get('https://hackverse.herokuapp.com/api/student/all',{
+        univ_id : "603abb0b656a48001587b381"
+      })
+      this.data =data.students
     }
   },
   created(){

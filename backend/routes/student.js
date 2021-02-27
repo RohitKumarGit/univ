@@ -57,6 +57,7 @@ Router.get('/all',async (req,res)=>{
         const students = await Student.find({
             univ:req.query.univ_id
         })
+        res.send(students)
     } catch (error) {
         console.log(error)
     }
