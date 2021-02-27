@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.19.0",
+    "buefy": "^0.9.4",
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",
     "express-session": "^1.17.1",
@@ -19,7 +20,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start":"node index.js"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
