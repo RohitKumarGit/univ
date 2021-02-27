@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../notes_tab/notes_tab.dart';
 import '../profile_tab/profile_screen.dart';
+import '../questions_tab/q_app_state.dart';
 import '../questions_tab/questions_tab.dart';
 import '../sessions_tab/sessions_tab.dart';
 import 'tabs.dart';

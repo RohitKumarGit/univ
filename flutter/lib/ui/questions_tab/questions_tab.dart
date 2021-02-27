@@ -9,22 +9,7 @@ import '../../blocs/blocs.dart';
 import '../../models/models.dart';
 import '../../repo/repo.dart';
 import '../widgets/main_action_button.dart';
-
-class QAppBarState extends ChangeNotifier {
-  final textController = TextEditingController();
-  final focusNode = FocusNode();
-  final animatedListKey = GlobalKey<AnimatedListState>();
-  
-  bool _isSearch = false;
-  bool get isSearch => _isSearch;
-  set isSearch(bool s) {
-    if (_isSearch != s) {
-      _isSearch = s;
-      focusNode.requestFocus();
-      notifyListeners();
-    }
-  }
-}
+import 'q_app_state.dart';
 
 class QuestionsTab extends StatelessWidget {
   @override
@@ -54,6 +39,11 @@ class QuestionsTab extends StatelessWidget {
                       ),
                       actions: [
                         IconButton(
+                          icon: const Icon(Icons.local_offer_outlined),
+                          onPressed: () =>
+                              context.read<QAppBarState>().addTag(),
+                        ),
+                        IconButton(
                           icon: const Icon(Icons.search),
                           onPressed: () {},
                         ),
@@ -77,7 +67,12 @@ class QuestionsTab extends StatelessWidget {
                     ),
             ),
           ),
-          body: questionList,
+          body: Column(
+            children: [
+              TagContainer(tags: appBarState.tags),
+              Expanded(child: questionList),
+            ],
+          ),
         );
       },
       child: BlocBuilder<QuestionsBloc, QuestionsState>(
@@ -109,6 +104,78 @@ class QuestionsTab extends StatelessWidget {
     );
   }
 }
+
+class TagContainer extends StatefulWidget {
+  const TagContainer({
+    Key key,
+    this.tags,
+  }) : super(key: key);
+
+  final List<String> tags;
+
+  @override
+  _TagContainerState createState() => _TagContainerState();
+}
+
+class _TagContainerState extends State<TagContainer> with SingleTickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSize(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+      curve: Curves.easeInOut,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (widget.tags.isNotEmpty) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                child: Row(
+                    children: widget.tags
+                        .map((t) => Tag(
+                              name: t,
+                              onTap: () => context
+                                  .read<QAppBarState>()
+                                  .removeTag(t),
+                            ))
+                        .toList()),
+              ),
+            ),
+            const Divider(),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class Tag extends StatelessWidget {
+  Tag({
+    @required this.name,
+    @required this.onTap,
+  }) : super(key: Key(name));
+
+  final String name;
+  final Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        color: Colors.yellow.shade200,
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Text(name),
+        ),
+      ),
+    );
+  }
+}
+
 
 class QuestionTile extends StatelessWidget {
   const QuestionTile(this.q);

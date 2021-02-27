@@ -76,6 +76,7 @@ class MyApp extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
+              dividerTheme: const DividerThemeData(space: 0),
             ),
           ),
         ),
