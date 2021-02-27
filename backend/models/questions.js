@@ -12,7 +12,8 @@ const QuestionSchema = new mongoose.Schema({
         type:Number,
         required:true,
         min:1,
-        max:20
+        max:20,
+        default:5
     },
     student : {
         type :id ,
@@ -21,6 +22,10 @@ const QuestionSchema = new mongoose.Schema({
     univ :{
         type:id,
         ref:"University"
+    },
+    answered :{
+        type:Boolean,
+        default:false
     },
     answers:[{
         type:id ,

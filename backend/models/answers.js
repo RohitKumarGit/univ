@@ -11,6 +11,10 @@ const QuestionSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
+    question :{
+        type:id,
+        ref:"Question"
+    },
     student : {
         type :id ,
         ref :"Student"
@@ -18,14 +22,6 @@ const QuestionSchema = new mongoose.Schema({
     univ :{
         type:id,
         ref:"University"
-    },
-    upvote :{
-        type:Number,
-        default:0
-    },
-    downvote :{
-        type:Number,
-        default:0
     },
     priority :{
         type :Boolean,
@@ -38,5 +34,5 @@ const QuestionSchema = new mongoose.Schema({
 },{
     timestamps:true
 })
-const Question = mongoose.model("Question",QuestionSchema)
+const Question = mongoose.model("Answers",QuestionSchema)
 module.exports = Question

@@ -16,9 +16,129 @@ Router.post('/',async (req,res)=>{
         })
     }
 })
+Router.get('/teaching',async (req,res)=>{
+    try {
+        const sessions = await Sessions.find({
+            univ : req.query.univ_id,
+            teaching:true
+        }).populate("student attendees")
+        res.send({
+            sessions
+           
+        })
+    } catch (error) {
+        res.send({
+            error
+          
+            
+        })
+    }
+})
+Router.get('/discussion',async (req,res)=>{
+    try {
+        const sessions = await Sessions.find({
+            univ : req.query.univ_id,
+            teaching:false
+        })
+        res.send({
+            sessions
+           
+        })
+    } catch (error) {
+        res.send({
+            error
+          
+            
+        })
+    }
+})
+Router.get('/cancelled',async (req,res)=>{
+    try {
+        const sessions = await Sessions.find({
+            univ : req.query.univ_id,
+            cancelled:true
+        })
+        res.send({
+            sessions
+           
+        })
+    } catch (error) {
+        res.send({
+            error
+          
+            
+        })
+    }
+})
+Router.get('/completed',async (req,res)=>{
+    try {
+        const sessions = await Sessions.find({
+            univ : req.query.univ_id,
+            done:true
+        })
+        res.send({
+            sessions
+           
+        })
+    } catch (error) {
+        res.send({
+            error
+          
+            
+        })
+    }
+})
+Router.get('/userteaching',async (req,res)=>{ // jisme wo padha rha h
+    try {
+        const sessions = await Sessions.find({
+            student : req.query.student_id
+        })
+        res.send({
+            sessions
+           
+        })
+    } catch (error) {
+        res.send({
+            error
+          
+            
+        })
+    }
+})
+Router.post('/register',async (req,res)=>{ // register kar rha h
+    try {
+        const sessions = await Sessions.findById(req.body.session_id)
+        sessions.attendees.push(req.body.student_id)
+        await sessions.save()
+        res.send({
+            done:true
+        })
+    } catch (error) {
+        res.status(400).send({
+            done:false
+        })
+    }
+})
+Router.get('/userteaching1',async (req,res)=>{ // jisme usne register kiya h
+    try {
+        const sessions = await Sessions.find({
+            attendees : req.query.student_id
+        })
+        res.send({
+            sessions
+           
+        })
+    } catch (error) {
+        res.send({
+            error
+          
+            
+        })
+    }
+})
 Router.post('/rate',async (req,res)=>{
     try {
-        var  session = await Sessions.findOne(req.body.session_id)
+        var  session = await Sessions.findById(req.body.session_id)
         session.nrated +=1
         session.ratings = (session.ratings + req.body.rating) / session.nrated
         session = await session.save()
@@ -26,6 +146,7 @@ Router.post('/rate',async (req,res)=>{
             session
         })
     } catch (error) {
+        console.log(error)
         res.send({
             error,
            
@@ -36,13 +157,14 @@ Router.post('/rate',async (req,res)=>{
 
 Router.post('/rsvp',async (req,res)=>{
     try {
-        var  session = await Sessions.findOne(req.body.session_id)
+        var  session = await Sessions.findById(req.body.session_id)
         session.rsvp  = true
         session = await session.save()
         res.send({
             session
         })
     } catch (error) {
+        console.log(error)
         res.send({
             error,
            
@@ -52,7 +174,7 @@ Router.post('/rsvp',async (req,res)=>{
 })
 Router.post('/cancel',async (req,res)=>{
     try {
-        var  session = await Sessions.findOne(req.body.session_id)
+        var  session = await Sessions.findById(req.body.session_id)
         session.cancelled = true
         session = await session.save()
         res.send({
@@ -69,7 +191,7 @@ Router.post('/cancel',async (req,res)=>{
 
 Router.post('/done',async (req,res)=>{
     try {
-        var  session = await Sessions.findOne(req.body.session_id)
+        var  session = await Sessions.findById(req.body.session_id)
         session.done = true
         const inst  = session.student
         const student = await Student.findById(inst)
@@ -92,3 +214,4 @@ Router.post('/done',async (req,res)=>{
         })
     }
 })
+module.exports = Router

@@ -21,8 +21,8 @@ const universitySchema = new mongoose.Schema({
     phone :{
         type :Number,
         required:true,
-        min:10,
-        max :10
+       
+       
     },
     email :{
         type:String,
@@ -35,4 +35,4 @@ const universitySchema = new mongoose.Schema({
     }
 })
 const University = mongoose.model("University",universitySchema)
-mongoose.model = University
+module.exports = University
