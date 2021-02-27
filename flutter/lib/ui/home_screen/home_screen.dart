@@ -15,47 +15,52 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => Tabs(
-        routes: [
-          RouteTab(
-            label: 'Questions',
-            icon: FontAwesomeIcons.solidCommentAlt,
-            build: () => QuestionsTab(),
-          ),
-          RouteTab(
-            label: 'Sessions',
-            icon: FontAwesomeIcons.video,
-            build: () => SessionsTab(),
-          ),
-          RouteTab(
-            label: 'Notes',
-            icon: FontAwesomeIcons.solidFileAlt,
-            build: () => NotesTab(),
-          ),
-          RouteTab(
-            label: 'Profile',
-            icon: FontAwesomeIcons.solidUser,
-            build: () => ProfileTab(),
-          ),
-        ],
-      ),
-      child: Consumer<Tabs>(
-        builder: (context, tabs, _) {
-          return Scaffold(
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: tabs.selectedIndex,
-              onTap: (i) => tabs.selectedIndex = i,
-              items: tabs.routes
-                  .map((t) => BottomNavigationBarItem(
-                        icon: FaIcon(t.icon),
-                        label: t.label,
-                      ))
-                  .toList(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => QAppBarState()),
+      ],
+      child: ChangeNotifierProvider(
+        create: (_) => Tabs(
+          routes: [
+            RouteTab(
+              label: 'Questions',
+              icon: FontAwesomeIcons.solidCommentAlt,
+              build: () => QuestionsTab(),
             ),
-            body: tabs.route.build() ?? Center(child: Text(tabs.route.label)),
-          );
-        },
+            RouteTab(
+              label: 'Sessions',
+              icon: FontAwesomeIcons.video,
+              build: () => SessionsTab(),
+            ),
+            RouteTab(
+              label: 'Notes',
+              icon: FontAwesomeIcons.solidFileAlt,
+              build: () => NotesTab(),
+            ),
+            RouteTab(
+              label: 'Profile',
+              icon: FontAwesomeIcons.solidUser,
+              build: () => ProfileTab(),
+            ),
+          ],
+        ),
+        child: Consumer<Tabs>(
+          builder: (context, tabs, _) {
+            return Scaffold(
+              bottomNavigationBar: BottomNavigationBar(
+                currentIndex: tabs.selectedIndex,
+                onTap: (i) => tabs.selectedIndex = i,
+                items: tabs.routes
+                    .map((t) => BottomNavigationBarItem(
+                          icon: FaIcon(t.icon),
+                          label: t.label,
+                        ))
+                    .toList(),
+              ),
+              body: tabs.route.build() ?? Center(child: Text(tabs.route.label)),
+            );
+          },
+        ),
       ),
     );
   }
