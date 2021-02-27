@@ -3,6 +3,10 @@
 var mongoose = require('mongoose');
 
 var id = mongoose.Types.ObjectId;
+var s = {
+  type: String,
+  required: true
+};
 var QuestionSchema = new mongoose.Schema({
   desc: s,
   awarded: {

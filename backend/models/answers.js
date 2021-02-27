@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 const id = mongoose.Types.ObjectId
-
+const s = {
+    type:String,
+    required:true
+}
 const QuestionSchema = new mongoose.Schema({
    
     desc:s,
