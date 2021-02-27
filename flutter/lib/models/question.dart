@@ -11,6 +11,7 @@ class Question {
     @required this.isAnswered,
     @required this.answers,
     @required this.voted,
+    @required this.uid,
     this.tags = const [],
   });
 
@@ -24,6 +25,7 @@ class Question {
   final int answers;
   final bool voted;
   final List<String> tags;
+  final String uid;
 
   Color get upVoteCol => (voted ?? false) ? Colors.deepOrange : null;
 

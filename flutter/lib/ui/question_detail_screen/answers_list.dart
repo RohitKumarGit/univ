@@ -9,6 +9,10 @@ import '../../models/models.dart';
 import '../../repo/repo.dart';
 
 class AnswersList extends StatelessWidget {
+  const AnswersList(this.q);
+
+  final Question q;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AnswersBloc, AnswersState>(
@@ -25,7 +29,7 @@ class AnswersList extends StatelessWidget {
               shrinkWrap: true,
               itemCount: answers.length,
               itemBuilder: (context, i) {
-                return AnswerTile(answers[i]);
+                return AnswerTile(a: answers[i], q: q);
               },
             );
           },
@@ -36,9 +40,10 @@ class AnswersList extends StatelessWidget {
 }
 
 class AnswerTile extends StatelessWidget {
-  const AnswerTile(this.a);
+  const AnswerTile({this.a, this.q});
 
   final Answer a;
+  final Question q;
 
   static final _df = DateFormat.yMMMd();
   static final _tf = DateFormat.jm();
@@ -67,18 +72,19 @@ class AnswerTile extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8),
               child: MarkdownBody(data: a.answer),
             ),
-            Consumer<Repo>(
-              builder: (context, repo, _) {
-                
+            Consumer<Repo>(builder: (context, repo, _) {
+              if (!q.isAnswered && repo.hasUser && repo.user.uid == q.uid) {
+                return Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: const Text('Accept'),
+                  ),
+                );
+              } else {
+                return const SizedBox(width: 0, height: 0);
               }
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                child: const Text('Accept'),
-                onPressed: () {},
-              ),
-            ),
+            }),
           ],
         ),
       ),

@@ -18,9 +18,6 @@ abstract class AnswersState with _$AnswersState {
 @freezed
 abstract class AnswersEvent with _$AnswersEvent {
   const factory AnswersEvent.fetch() = _Fetch;
-  const factory AnswersEvent.post({
-    @required String answer,
-  }) = _Post;
 }
 
 class AnswersBloc extends Bloc<AnswersEvent, AnswersState> {
@@ -40,7 +37,6 @@ class AnswersBloc extends Bloc<AnswersEvent, AnswersState> {
   Stream<AnswersState> mapEventToState(AnswersEvent event) {
     return event.map(
       fetch: _fetch,
-      post: _post,
     );
   }
 
@@ -49,6 +45,4 @@ class AnswersBloc extends Bloc<AnswersEvent, AnswersState> {
     final answers = await _repo.fetchAnswers();
     yield AnswersState.initial(answers);
   }
-
-  Stream<AnswersState> _post(_Post event) async* {}
 }

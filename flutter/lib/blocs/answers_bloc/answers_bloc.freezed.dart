@@ -282,13 +282,6 @@ class _$AnswersEventTearOff {
   _Fetch fetch() {
     return const _Fetch();
   }
-
-// ignore: unused_element
-  _Post post({@required String answer}) {
-    return _Post(
-      answer: answer,
-    );
-  }
 }
 
 /// @nodoc
@@ -300,23 +293,19 @@ mixin _$AnswersEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult fetch(),
-    @required TResult post(String answer),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult fetch(),
-    TResult post(String answer),
     @required TResult orElse(),
   });
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult fetch(_Fetch value),
-    @required TResult post(_Post value),
   });
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult fetch(_Fetch value),
-    TResult post(_Post value),
     @required TResult orElse(),
   });
 }
@@ -374,10 +363,8 @@ class _$_Fetch implements _Fetch {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
     @required TResult fetch(),
-    @required TResult post(String answer),
   }) {
     assert(fetch != null);
-    assert(post != null);
     return fetch();
   }
 
@@ -385,7 +372,6 @@ class _$_Fetch implements _Fetch {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
     TResult fetch(),
-    TResult post(String answer),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -399,10 +385,8 @@ class _$_Fetch implements _Fetch {
   @optionalTypeArgs
   TResult map<TResult extends Object>({
     @required TResult fetch(_Fetch value),
-    @required TResult post(_Post value),
   }) {
     assert(fetch != null);
-    assert(post != null);
     return fetch(this);
   }
 
@@ -410,7 +394,6 @@ class _$_Fetch implements _Fetch {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object>({
     TResult fetch(_Fetch value),
-    TResult post(_Post value),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
@@ -423,118 +406,4 @@ class _$_Fetch implements _Fetch {
 
 abstract class _Fetch implements AnswersEvent {
   const factory _Fetch() = _$_Fetch;
-}
-
-/// @nodoc
-abstract class _$PostCopyWith<$Res> {
-  factory _$PostCopyWith(_Post value, $Res Function(_Post) then) =
-      __$PostCopyWithImpl<$Res>;
-  $Res call({String answer});
-}
-
-/// @nodoc
-class __$PostCopyWithImpl<$Res> extends _$AnswersEventCopyWithImpl<$Res>
-    implements _$PostCopyWith<$Res> {
-  __$PostCopyWithImpl(_Post _value, $Res Function(_Post) _then)
-      : super(_value, (v) => _then(v as _Post));
-
-  @override
-  _Post get _value => super._value as _Post;
-
-  @override
-  $Res call({
-    Object answer = freezed,
-  }) {
-    return _then(_Post(
-      answer: answer == freezed ? _value.answer : answer as String,
-    ));
-  }
-}
-
-/// @nodoc
-class _$_Post implements _Post {
-  const _$_Post({@required this.answer}) : assert(answer != null);
-
-  @override
-  final String answer;
-
-  @override
-  String toString() {
-    return 'AnswersEvent.post(answer: $answer)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is _Post &&
-            (identical(other.answer, answer) ||
-                const DeepCollectionEquality().equals(other.answer, answer)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(answer);
-
-  @JsonKey(ignore: true)
-  @override
-  _$PostCopyWith<_Post> get copyWith =>
-      __$PostCopyWithImpl<_Post>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object>({
-    @required TResult fetch(),
-    @required TResult post(String answer),
-  }) {
-    assert(fetch != null);
-    assert(post != null);
-    return post(answer);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object>({
-    TResult fetch(),
-    TResult post(String answer),
-    @required TResult orElse(),
-  }) {
-    assert(orElse != null);
-    if (post != null) {
-      return post(answer);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object>({
-    @required TResult fetch(_Fetch value),
-    @required TResult post(_Post value),
-  }) {
-    assert(fetch != null);
-    assert(post != null);
-    return post(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object>({
-    TResult fetch(_Fetch value),
-    TResult post(_Post value),
-    @required TResult orElse(),
-  }) {
-    assert(orElse != null);
-    if (post != null) {
-      return post(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Post implements AnswersEvent {
-  const factory _Post({@required String answer}) = _$_Post;
-
-  String get answer;
-  @JsonKey(ignore: true)
-  _$PostCopyWith<_Post> get copyWith;
 }
