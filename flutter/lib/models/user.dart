@@ -2,12 +2,16 @@ import 'package:flutter/foundation.dart';
 
 class User {
   User({
-    @required this.uid,
+    @required this.credits,
+    @required this.studentId,
     @required this.name,
     @required this.email,
+    @required this.univId,
   });
 
-  final String uid;
+  final int credits;
+  final String studentId;
   final String name;
   final String email;
+  final String univId;
 }

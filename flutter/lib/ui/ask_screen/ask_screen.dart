@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
+import '../../blocs/blocs.dart';
 import '../widgets/main_action_button.dart';
 import '../widgets/tag_container.dart';
 
@@ -99,6 +101,18 @@ class _AskScreenState extends State<AskScreen> {
     return true;
   }
 
+  void _post() {
+    if (!_validateAndSave()) {
+      return;
+    }
+
+    context.read<PostQuestionBloc>().add(PostQuestionEvent.post(
+          title: _title,
+          description: _description,
+          tags: _tags,
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,7 +125,7 @@ class _AskScreenState extends State<AskScreen> {
           ),
           MainActionButton(
             label: 'Post',
-            onPressed: () {},
+            onPressed: _post,
             color: Colors.green,
           ),
         ],

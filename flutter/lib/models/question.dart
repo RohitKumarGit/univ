@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'answer.dart';
+
 class Question {
   Question({
     @required this.id,
@@ -9,9 +11,9 @@ class Question {
     @required this.date,
     @required this.name,
     @required this.isAnswered,
-    @required this.answers,
     @required this.voted,
     @required this.uid,
+    @required this.answersList,
     this.tags = const [],
   });
 
@@ -22,10 +24,12 @@ class Question {
   final DateTime date;
   final String name;
   final bool isAnswered;
-  final int answers;
   final bool voted;
   final List<String> tags;
   final String uid;
+  final List<Answer> answersList;
+
+  int get answers => answersList.length;
 
   Color get upVoteCol => (voted ?? false) ? Colors.deepOrange : null;
 
