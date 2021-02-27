@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import 'blocs/blocs.dart';
 import 'blocs/user_bloc/user_bloc.dart';
@@ -10,7 +13,7 @@ import 'ui/login_screen.dart';
 import 'ui/questions_tab/questions_tab.dart';
 import 'ui/sessions_tab/s_app_bar_state.dart';
 
-void main() {
+void main() async {
   final repo = Repo();
   final userBloc = UserBloc(repo: repo);
   runApp(MyApp(
@@ -55,6 +58,11 @@ class MyApp extends StatelessWidget {
               create: (context) => QuestionsBloc(
                 repo: context.read<Repo>(),
               )..add(const QuestionsEvent.fetch()),
+            ),
+            BlocProvider(
+              create: (context) => PostQuestionBloc(
+                repo: context.read<Repo>(),
+              ),
             ),
           ],
           child: MultiProvider(

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 import '../models/models.dart';
 
 // TODO: rewrite after server is build.
@@ -8,12 +11,51 @@ class Repo {
 
   bool get hasUser => _user != null;
 
+  Future<void> postAnswer(String answer) async {
+    //TODO: send name in post
+    http.post(
+      Uri.parse('https://hackverse.herokuapp.com/api/QNA/question'),
+      body: jsonEncode({}),
+    );
+  }
+
+  Future<bool> postQuestion({
+    String title,
+    String description,
+    List<String> tags,
+  }) async {
+    final body = jsonEncode({
+      'title': title,
+      'desc': description,
+      'univ': user.univId,
+      'student': user.studentId,
+      'tags': tags,
+    });
+
+    final response = await http.post(
+      'https://hackverse.herokuapp.com/api/QNA/question',
+      headers: {
+        'content-type': 'application/json',
+        'Content-Length': body.length.toString(),
+      },
+      body: body,
+    );
+
+    if (response.statusCode != 200) {
+      return false;
+    }
+
+    return true;
+  }
+
   Future<User> signIn() async {
     await Future.delayed(const Duration(seconds: 2));
     return _user = User(
+      credits: 100,
       email: 'navaneethp123@outlook.com',
       name: 'Navaneeth P',
-      uid: 'unique_user_id',
+      studentId: '603a9c6e6a47357880ab74b5',
+      univId: '603a5e7bb74ddd2918e7001f',
     );
   }
 
@@ -84,23 +126,56 @@ class Repo {
   var questions = <Question>[];
 
   Future<List<Question>> fetchQuestions() async {
-    await Future.delayed(const Duration(seconds: 2));
-    return questions = [
-      for (var i = 0; i < 10; ++i)
-        Question(
-        voted: i % 4 == 0 ? true : (i % 6 == 0 ? false : null),
-        id: '1',
-        isAnswered: i % 3 == 0,
-        name: 'Navaneeth',
-        votes: 127,
-        date: DateTime(2021, 1, 25),
-        title: 'Show a text just a view seconds Flutter?',
-        description:
-            'I got an on pressed **method** that *shows* a message `if` something is wrong it displayed an error message and if not it displayed another message. My Problem is that when user enters something wrong and then trying again and enters something right it shows the error message still and also the other message.',
-        answers: 0,
-        uid: i.isEven ? 'unique_user_id' : 'some_other_id',
-      ),
-    ];
+    final response = await http.get(
+      'https://hackverse.herokuapp.com/api/QNA/?univ_id=${user.univId}'
+    );
+
+    if (response.statusCode != 200) {
+      return null;
+    }
+
+    final jsonData = jsonDecode(response.body);
+    final qs = <Question>[];
+
+    print(jsonData);
+
+    // for (final jd in jsonData['questions']) {
+    //   final upVotes = jd['upvote'] as List;
+    //   final downVotes = jd['downvote'] as List;
+    //   final votes = upVotes.length - downVotes.length;
+    //   bool voted;
+    //   if (upVotes.contains(user.studentId)) {
+    //     voted = true;
+    //   } else if (downVotes.contains(user.studentId)) {
+    //     voted = false;
+    //   } else {
+    //     voted = null;
+    //   }
+    //   qs.add(Question(
+    //     isAnswered: jd['answered'],
+    //     votes: votes,
+    //     voted: voted,
+    //     answersList: jd['answers'].map<Answer>((ad) {
+    //       return Answer(
+    //         answer: ad['description'],
+    //         date: DateTime.parse(ad['updatedAt']),
+    //         accepted: ad['awarded'],
+    //         name: ad['name'],
+    //         id: ad['_id'],
+    //       );
+    //     }).toList(),
+    //     id: jd['_id'],
+    //     date: DateTime.parse(jd['updatedAt']),
+    //     description: jd['desc'],
+    //     title: jd['title'],
+    //     uid: jd['student']['_id'],
+    //     name: jd['student']['name'],
+    //     tags: jd['tags']
+    //   ));
+    // }
+    
+    // return questions = qs;
+    return questions;
   }
 
   var answers = <Answer>[];
@@ -108,12 +183,12 @@ class Repo {
   Future<List<Answer>> fetchAnswers() async {
     await Future.delayed(Duration(seconds: 0));
     return answers = [
-    Answer(
-      date: DateTime.now(),
-      accepted: false,
-      id: '1',
-      name: 'Navaneeth',
-      answer: '''(This should've been a comment but there is no formatting)
+      Answer(
+        date: DateTime.now(),
+        accepted: false,
+        id: '1',
+        name: 'Navaneeth',
+        answer: '''(This should've been a comment but there is no formatting)
 
 Use trailing commas in the arguments list.
 
@@ -141,13 +216,14 @@ decoration: BoxDecoration(
   ), // add a comma here
 ),
 ```''',
-    ),
-    Answer(
-      date: DateTime.now(),
-      accepted: true,
-      id: '1',
-      name: 'Navaneeth',
-      answer: '''After deletion `DropdownButton` is given a `value`(`selectedStand`) that none of the `DropdownMenuItem`s contain. So, first check if a document exists whose `id` is `selectedStand` otherwise set `value` to `null`.
+      ),
+      Answer(
+        date: DateTime.now(),
+        accepted: true,
+        id: '1',
+        name: 'Navaneeth',
+        answer:
+            '''After deletion `DropdownButton` is given a `value`(`selectedStand`) that none of the `DropdownMenuItem`s contain. So, first check if a document exists whose `id` is `selectedStand` otherwise set `value` to `null`.
 
 ```
 // get the document with id as selectedStand. Will be null if it doesn't exist.
@@ -193,20 +269,20 @@ return Row(
 ```
 
 Alternatively you could set `selectedStand = selectedDoc?.documentID` right after finding `selectedDoc`, so that `selectedStand` will always have a valid value.''',
-    ),
-    Answer(
-      date: DateTime.now(),
-      accepted: false,
-      id: '1',
-      name: 'Navaneeth',
-      answer: '''Something was changed ,i.e, added, removed, modified
+      ),
+      Answer(
+        date: DateTime.now(),
+        accepted: false,
+        id: '1',
+        name: 'Navaneeth',
+        answer: '''Something was changed ,i.e, added, removed, modified
 
 ```
 if (snapshot.data.documentChanges.length != 0) {
   // Some changes were made. Show Indicator
 }
 ```''',
-    ),
-  ];
+      ),
+    ];
   }
 }

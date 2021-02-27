@@ -73,7 +73,7 @@ class AnswerTile extends StatelessWidget {
               child: MarkdownBody(data: a.answer),
             ),
             Consumer<Repo>(builder: (context, repo, _) {
-              if (!q.isAnswered && repo.hasUser && repo.user.uid == q.uid) {
+              if (!q.isAnswered && repo.hasUser && repo.user.studentId == q.uid) {
                 return Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
