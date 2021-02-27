@@ -9,6 +9,7 @@ import '../../blocs/blocs.dart';
 import '../../models/models.dart';
 import '../../repo/repo.dart';
 import '../app_bar_state.dart';
+import '../ask_screen/ask_screen.dart';
 import '../widgets/main_action_button.dart';
 import '../widgets/show_filters.dart';
 import '../widgets/tag_container.dart';
@@ -121,7 +122,7 @@ class QuestionsTab extends StatelessWidget {
                         ),
                         MainActionButton(
                           label: 'Ask',
-                          onPressed: () {},
+                          onPressed: () => Navigator.of(context).push(AskScreen.route()),
                           color: Colors.green,
                         ),
                       ],
