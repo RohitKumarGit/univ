@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import '../../blocs/blocs.dart';
 import '../../models/models.dart';
 import '../../repo/repo.dart';
+import '../answer_screen/answer_screen.dart';
 import 'answers_list.dart';
 
 class QuestionDetailScreen extends StatelessWidget {
@@ -31,7 +32,9 @@ class QuestionDetailScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).push(
+                    AnswerScreen.route(context.read<AnswersBloc>()),
+                  ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.green),
                   ),
@@ -52,7 +55,7 @@ class QuestionDetailScreen extends StatelessWidget {
                 parent: BouncingScrollPhysics()),
             children: [
               QuestionBox(q),
-              AnswersList(),
+              AnswersList(q),
             ],
           ),
         );

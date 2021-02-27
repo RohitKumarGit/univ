@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../widgets/main_action_button.dart';
 import '../widgets/tag_container.dart';
@@ -19,6 +20,61 @@ class _AskScreenState extends State<AskScreen> {
 
   final _form = GlobalKey<FormState>();
   final _tagController = TextEditingController();
+
+  void _showPreview(BuildContext context) {
+    if (!_validateAndSave()) {
+      return;
+    }
+
+    final size = MediaQuery.of(context).size;
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return Container(
+          height: size.height * 0.8,
+          padding: const EdgeInsets.all(5),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  width: size.width * 0.5,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: Colors.black45,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.all(14),
+                child: Text(
+                  _title,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+              Markdown(
+                physics: const BouncingScrollPhysics(),
+                data: _description,
+                shrinkWrap: true,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   void _addTag() {
     final t = _tagController.text;
@@ -51,7 +107,7 @@ class _AskScreenState extends State<AskScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.visibility),
-            onPressed: () {},
+            onPressed: () => _showPreview(context),
           ),
           MainActionButton(
             label: 'Post',
