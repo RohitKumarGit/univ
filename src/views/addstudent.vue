@@ -17,13 +17,14 @@
   </div>
 </template>
 <script>
-
+import axios from 'axios'
 export default {
     data(){
         return {
             name :"",
             roll:"",
-            email:""
+            email:"",
+            univ :"abc"
         }
     },
     methods:{
@@ -31,8 +32,17 @@ export default {
             const data = {
                 name :this.name,
                 roll:this.roll,
-                email:this.roll
+                email:this.roll,
+                univ:this.univ._id
             }
+            try {
+                const {datad} = await axios.post('https://hackverse.herokuapp.com/api/student',data)
+                console.log(datad)
+                this.$router.push('/')
+            } catch (error) {
+                console.log(error)
+            }
+            
         }
     }
 }
