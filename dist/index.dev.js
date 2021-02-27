@@ -28,7 +28,7 @@ var university = require('./backend/models/university');
 
 var mongoose = require('mongoose');
 
-var uri = "mongodb://localhost:27017/test";
+var uri = "mongodb+srv://user:uvOyX5UA6I2mjplk@cluster0.azmit.mongodb.net/NUCLEUS?retryWrites=true&w=majority";
 mongoose.connect(uri, {
   useNewUrlParser: "true"
 });
