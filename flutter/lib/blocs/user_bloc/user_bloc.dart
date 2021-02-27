@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../repo/repo.dart';
-part 'user_bloc.freezed.dart';
+import '../../repo/repo.dart';
+part '../user_bloc.freezed.dart';
 
 @freezed
 abstract class UserState with _$UserState {

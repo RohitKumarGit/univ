@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'blocs/user_bloc.dart';
+import 'blocs/user_bloc/user_bloc.dart';
 import 'repo/repo.dart';
-import 'ui/home_screen.dart';
+import 'ui/home_screen/home_screen.dart';
 import 'ui/login_screen.dart';
 
 void main() {

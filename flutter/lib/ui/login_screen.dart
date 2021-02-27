@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../blocs/user_bloc.dart';
-import 'home_screen.dart';
+import '../blocs/user_bloc/user_bloc.dart';
+import 'home_screen/home_screen.dart';
 
 class LogInScreen extends StatefulWidget {
+  static MaterialPageRoute route() => MaterialPageRoute(
+    builder: (_) => LogInScreen(),
+  );
+
   @override
   _LogInScreenState createState() => _LogInScreenState();
 }
@@ -79,7 +83,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     onSaved: (v) => _password = v,
                     validator: (v) => (v?.isNotEmpty ?? false)
                         ? null
-                        : 'Email cannot be empty',
+                        : 'Password cannot be empty',
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Password',
