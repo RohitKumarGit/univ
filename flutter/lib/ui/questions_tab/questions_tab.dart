@@ -8,10 +8,47 @@ import 'package:provider/provider.dart';
 import '../../blocs/blocs.dart';
 import '../../models/models.dart';
 import '../../repo/repo.dart';
+import '../app_bar_state.dart';
 import '../widgets/main_action_button.dart';
 import '../widgets/show_filters.dart';
 import '../widgets/tag_container.dart';
-import 'q_app_state.dart';
+
+enum QFilter {
+  date,
+  votes,
+  answers,
+}
+
+extension QFilterExt on QFilter {
+  // ignore: missing_return
+  String get title {
+    switch (this) {
+      case QFilter.date: return 'Date';
+      case QFilter.votes: return 'Votes';
+      case QFilter.answers: return 'Answers';
+    }
+  }
+
+  // ignore: missing_return
+  IconData get icon {
+    switch (this) {
+      case QFilter.date: return FontAwesomeIcons.calendar;
+      case QFilter.votes: return FontAwesomeIcons.chevronUp;
+      case QFilter.answers: return FontAwesomeIcons.commentAlt;
+    }
+  }
+}
+
+class QAppBarState extends AppBarState {
+  var _filter = QFilter.date;
+  QFilter get filter => _filter;
+  set filter(QFilter f) {
+    if (_filter != f) {
+      _filter = f;
+      notifyListeners();
+    }
+  }
+}
 
 class QuestionsTab extends StatelessWidget {
   @override

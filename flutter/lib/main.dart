@@ -7,7 +7,7 @@ import 'blocs/user_bloc/user_bloc.dart';
 import 'repo/repo.dart';
 import 'ui/home_screen/home_screen.dart';
 import 'ui/login_screen.dart';
-import 'ui/questions_tab/q_app_state.dart';
+import 'ui/questions_tab/questions_tab.dart';
 
 void main() {
   final repo = Repo();
