@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 import 'blocs/user_bloc.dart';
 import 'repo/repo.dart';
-import 'tabs.dart';
+import 'ui/home_screen.dart';
+import 'ui/login_screen.dart';
 
 void main() {
   final repo = Repo();
@@ -17,7 +16,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({
+  const MyApp({
     @required this.repo,
     @required this.userBloc,
   });
@@ -32,7 +31,7 @@ class MyApp extends StatelessWidget {
       child: BlocProvider.value(
         value: userBloc,
         child: MaterialApp(
-          home: HomeScreen(),
+          home: repo.hasUser ? HomeScreen() : LogInScreen(),
           theme: ThemeData(
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
               backgroundColor: Colors.grey.shade100,
@@ -40,57 +39,21 @@ class MyApp extends StatelessWidget {
               selectedItemColor: Colors.blue.shade700,
               selectedLabelStyle: const TextStyle(fontSize: 12),
             ),
+            appBarTheme: AppBarTheme(
+              color: Colors.grey.shade100,
+              textTheme: const TextTheme(
+                headline6: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              iconTheme: const IconThemeData(
+                color: Colors.black,
+              ),
+            ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => Tabs(
-        routes: [
-          RouteTab(
-            label: 'Questions',
-            icon: FontAwesomeIcons.solidCommentAlt,
-            build: () => null,
-          ),
-          RouteTab(
-            label: 'Sessions',
-            icon: FontAwesomeIcons.video,
-            build: () => null,
-          ),
-          RouteTab(
-            label: 'Notes',
-            icon: FontAwesomeIcons.solidFileAlt,
-            build: () => null,
-          ),
-          RouteTab(
-            label: 'Profile',
-            icon: FontAwesomeIcons.solidUser,
-            build: () => null,
-          ),
-        ],
-      ),
-      child: Consumer<Tabs>(
-        builder: (context, tabs, _) {
-          return Scaffold(
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: tabs.selectedIndex,
-              onTap: (i) => tabs.selectedIndex = i,
-              items: tabs.routes
-                  .map((t) => BottomNavigationBarItem(
-                        icon: FaIcon(t.icon),
-                        label: t.label,
-                      ))
-                  .toList(),
-            ),
-            body: tabs.route.build() ?? Center(child: Text(tabs.route.label)),
-          );
-        },
       ),
     );
   }

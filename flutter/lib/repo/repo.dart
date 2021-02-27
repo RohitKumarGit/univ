@@ -6,6 +6,8 @@ class Repo {
   User _user;
   User get user => _user;
 
+  bool get hasUser => _user != null;
+
   Future<User> signIn() async {
     await Future.delayed(const Duration(seconds: 2));
     return _user = User(

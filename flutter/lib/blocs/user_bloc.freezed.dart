@@ -665,9 +665,9 @@ class _$UserEventTearOff {
   const _$UserEventTearOff();
 
 // ignore: unused_element
-  _SignIn signIn({@required String firebaseId, @required String email}) {
+  _SignIn signIn({@required String password, @required String email}) {
     return _SignIn(
-      firebaseId: firebaseId,
+      password: password,
       email: email,
     );
   }
@@ -686,12 +686,12 @@ const $UserEvent = _$UserEventTearOff();
 mixin _$UserEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult signIn(String firebaseId, String email),
+    @required TResult signIn(String password, String email),
     @required TResult signOut(),
   });
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult signIn(String firebaseId, String email),
+    TResult signIn(String password, String email),
     TResult signOut(),
     @required TResult orElse(),
   });
@@ -727,7 +727,7 @@ class _$UserEventCopyWithImpl<$Res> implements $UserEventCopyWith<$Res> {
 abstract class _$SignInCopyWith<$Res> {
   factory _$SignInCopyWith(_SignIn value, $Res Function(_SignIn) then) =
       __$SignInCopyWithImpl<$Res>;
-  $Res call({String firebaseId, String email});
+  $Res call({String password, String email});
 }
 
 /// @nodoc
@@ -741,12 +741,11 @@ class __$SignInCopyWithImpl<$Res> extends _$UserEventCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object firebaseId = freezed,
+    Object password = freezed,
     Object email = freezed,
   }) {
     return _then(_SignIn(
-      firebaseId:
-          firebaseId == freezed ? _value.firebaseId : firebaseId as String,
+      password: password == freezed ? _value.password : password as String,
       email: email == freezed ? _value.email : email as String,
     ));
   }
@@ -754,18 +753,18 @@ class __$SignInCopyWithImpl<$Res> extends _$UserEventCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_SignIn with DiagnosticableTreeMixin implements _SignIn {
-  const _$_SignIn({@required this.firebaseId, @required this.email})
-      : assert(firebaseId != null),
+  const _$_SignIn({@required this.password, @required this.email})
+      : assert(password != null),
         assert(email != null);
 
   @override
-  final String firebaseId;
+  final String password;
   @override
   final String email;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserEvent.signIn(firebaseId: $firebaseId, email: $email)';
+    return 'UserEvent.signIn(password: $password, email: $email)';
   }
 
   @override
@@ -773,7 +772,7 @@ class _$_SignIn with DiagnosticableTreeMixin implements _SignIn {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'UserEvent.signIn'))
-      ..add(DiagnosticsProperty('firebaseId', firebaseId))
+      ..add(DiagnosticsProperty('password', password))
       ..add(DiagnosticsProperty('email', email));
   }
 
@@ -781,9 +780,9 @@ class _$_SignIn with DiagnosticableTreeMixin implements _SignIn {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _SignIn &&
-            (identical(other.firebaseId, firebaseId) ||
+            (identical(other.password, password) ||
                 const DeepCollectionEquality()
-                    .equals(other.firebaseId, firebaseId)) &&
+                    .equals(other.password, password)) &&
             (identical(other.email, email) ||
                 const DeepCollectionEquality().equals(other.email, email)));
   }
@@ -791,7 +790,7 @@ class _$_SignIn with DiagnosticableTreeMixin implements _SignIn {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(firebaseId) ^
+      const DeepCollectionEquality().hash(password) ^
       const DeepCollectionEquality().hash(email);
 
   @JsonKey(ignore: true)
@@ -802,24 +801,24 @@ class _$_SignIn with DiagnosticableTreeMixin implements _SignIn {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult signIn(String firebaseId, String email),
+    @required TResult signIn(String password, String email),
     @required TResult signOut(),
   }) {
     assert(signIn != null);
     assert(signOut != null);
-    return signIn(firebaseId, email);
+    return signIn(password, email);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult signIn(String firebaseId, String email),
+    TResult signIn(String password, String email),
     TResult signOut(),
     @required TResult orElse(),
   }) {
     assert(orElse != null);
     if (signIn != null) {
-      return signIn(firebaseId, email);
+      return signIn(password, email);
     }
     return orElse();
   }
@@ -851,10 +850,10 @@ class _$_SignIn with DiagnosticableTreeMixin implements _SignIn {
 }
 
 abstract class _SignIn implements UserEvent {
-  const factory _SignIn({@required String firebaseId, @required String email}) =
+  const factory _SignIn({@required String password, @required String email}) =
       _$_SignIn;
 
-  String get firebaseId;
+  String get password;
   String get email;
   @JsonKey(ignore: true)
   _$SignInCopyWith<_SignIn> get copyWith;
@@ -902,7 +901,7 @@ class _$_SignOut with DiagnosticableTreeMixin implements _SignOut {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object>({
-    @required TResult signIn(String firebaseId, String email),
+    @required TResult signIn(String password, String email),
     @required TResult signOut(),
   }) {
     assert(signIn != null);
@@ -913,7 +912,7 @@ class _$_SignOut with DiagnosticableTreeMixin implements _SignOut {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object>({
-    TResult signIn(String firebaseId, String email),
+    TResult signIn(String password, String email),
     TResult signOut(),
     @required TResult orElse(),
   }) {

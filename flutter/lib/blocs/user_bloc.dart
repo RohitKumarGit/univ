@@ -17,7 +17,7 @@ abstract class UserState with _$UserState {
 @freezed
 abstract class UserEvent with _$UserEvent {
   const factory UserEvent.signIn({
-    @required String firebaseId,
+    @required String password,
     @required String email,
   }) = _SignIn;
   const factory UserEvent.signOut() = _SignOut;
