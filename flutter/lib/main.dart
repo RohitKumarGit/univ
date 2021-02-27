@@ -43,6 +43,11 @@ class MyApp extends StatelessWidget {
                 repo: context.read<Repo>(),
               )..add(const SessionsEvent.fetch()),
             ),
+            BlocProvider(
+              create: (context) => QuestionsBloc(
+                repo: context.read<Repo>(),
+              )..add(const QuestionsEvent.fetch()),
+            ),
           ],
           child: MaterialApp(
             home: repo.hasUser ? HomeScreen() : LogInScreen(),
