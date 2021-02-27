@@ -60,4 +60,25 @@ class Repo {
         ),
     ];
   }
+
+  var questions = <Question>[];
+
+  Future<List<Question>> fetchQuestions() async {
+    await Future.delayed(const Duration(seconds: 2));
+    return questions = [
+      for (var i = 0; i < 10; ++i)
+        Question(
+        voted: i % 4 == 0 ? true : (i % 6 == 0 ? false : null),
+        id: '1',
+        isAnswered: i % 3 == 0,
+        name: 'Navaneeth',
+        votes: 127,
+        date: DateTime(2021, 1, 25),
+        title: 'Show a text just a view seconds Flutter?',
+        description:
+            'I got an on pressed **method** that *shows* a message `if` something is wrong it displayed an error message and if not it displayed another message. My Problem is that when user enters something wrong and then trying again and enters something right it shows the error message still and also the other message.',
+        answers: 0,
+      ),
+    ];
+  }
 }
