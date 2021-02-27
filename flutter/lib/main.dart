@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 import 'blocs/blocs.dart';
 import 'blocs/user_bloc/user_bloc.dart';
 import 'repo/repo.dart';
 import 'ui/home_screen/home_screen.dart';
 import 'ui/login_screen.dart';
+import 'ui/questions_tab/q_app_state.dart';
 
 void main() {
   final repo = Repo();
@@ -54,29 +56,34 @@ class MyApp extends StatelessWidget {
               )..add(const QuestionsEvent.fetch()),
             ),
           ],
-          child: MaterialApp(
-            home: repo.hasUser ? HomeScreen() : LogInScreen(),
-            theme: ThemeData(
-              bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                backgroundColor: Colors.grey.shade100,
-                type: BottomNavigationBarType.fixed,
-                selectedItemColor: Colors.blue.shade700,
-                selectedLabelStyle: const TextStyle(fontSize: 12),
-              ),
-              appBarTheme: AppBarTheme(
-                color: Colors.grey.shade100,
-                textTheme: const TextTheme(
-                  headline6: TextStyle(
+          child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (_) => QAppBarState()),
+            ],
+            child: MaterialApp(
+              home: repo.hasUser ? HomeScreen() : LogInScreen(),
+              theme: ThemeData(
+                bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                  backgroundColor: Colors.grey.shade100,
+                  type: BottomNavigationBarType.fixed,
+                  selectedItemColor: Colors.blue.shade700,
+                  selectedLabelStyle: const TextStyle(fontSize: 12),
+                ),
+                appBarTheme: AppBarTheme(
+                  color: Colors.grey.shade100,
+                  textTheme: const TextTheme(
+                    headline6: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  iconTheme: const IconThemeData(
                     color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                iconTheme: const IconThemeData(
-                  color: Colors.black,
-                ),
+                dividerTheme: const DividerThemeData(space: 0),
               ),
-              dividerTheme: const DividerThemeData(space: 0),
             ),
           ),
         ),

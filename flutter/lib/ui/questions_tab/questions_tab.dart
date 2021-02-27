@@ -9,6 +9,8 @@ import '../../blocs/blocs.dart';
 import '../../models/models.dart';
 import '../../repo/repo.dart';
 import '../widgets/main_action_button.dart';
+import '../widgets/show_filters.dart';
+import '../widgets/tag_container.dart';
 import 'q_app_state.dart';
 
 class QuestionsTab extends StatelessWidget {
@@ -54,6 +56,28 @@ class QuestionsTab extends StatelessWidget {
                       title: const Text('Questions'),
                       actions: [
                         IconButton(
+                          icon: const Icon(Icons.tune),
+                          onPressed: () => showFilters(
+                            context,
+                            Consumer<QAppBarState>(
+                              builder: (context, state, _) {
+                                const filters = QFilter.values;
+                                return FiltersList(
+                                  filters: filters.map(
+                                    (f) => FilterConf(
+                                      value: f,
+                                      icon: f.icon,
+                                      title: f.title,
+                                    ),
+                                  ).toList(),
+                                  selectedFilter: state.filter,
+                                  onTap: (f) => state.filter = f,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        IconButton(
                           icon: const Icon(Icons.search),
                           onPressed: () =>
                               context.read<QAppBarState>().isSearch = true,
@@ -69,7 +93,10 @@ class QuestionsTab extends StatelessWidget {
           ),
           body: Column(
             children: [
-              TagContainer(tags: appBarState.tags),
+              TagContainer(
+                tags: appBarState.tags,
+                onTap: (t) => context.read<QAppBarState>().removeTag(t),
+              ),
               Expanded(child: questionList),
             ],
           ),
@@ -104,78 +131,6 @@ class QuestionsTab extends StatelessWidget {
     );
   }
 }
-
-class TagContainer extends StatefulWidget {
-  const TagContainer({
-    Key key,
-    this.tags,
-  }) : super(key: key);
-
-  final List<String> tags;
-
-  @override
-  _TagContainerState createState() => _TagContainerState();
-}
-
-class _TagContainerState extends State<TagContainer> with SingleTickerProviderStateMixin {
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedSize(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-      curve: Curves.easeInOut,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (widget.tags.isNotEmpty) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                physics: const BouncingScrollPhysics(),
-                child: Row(
-                    children: widget.tags
-                        .map((t) => Tag(
-                              name: t,
-                              onTap: () => context
-                                  .read<QAppBarState>()
-                                  .removeTag(t),
-                            ))
-                        .toList()),
-              ),
-            ),
-            const Divider(),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class Tag extends StatelessWidget {
-  Tag({
-    @required this.name,
-    @required this.onTap,
-  }) : super(key: Key(name));
-
-  final String name;
-  final Function() onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        color: Colors.yellow.shade200,
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Text(name),
-        ),
-      ),
-    );
-  }
-}
-
 
 class QuestionTile extends StatelessWidget {
   const QuestionTile(this.q);
