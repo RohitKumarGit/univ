@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../notes_tab/notes_tab.dart';
 import '../profile_tab/profile_screen.dart';
 import 'tabs.dart';
 
@@ -28,7 +29,7 @@ class HomeScreen extends StatelessWidget {
           RouteTab(
             label: 'Notes',
             icon: FontAwesomeIcons.solidFileAlt,
-            build: () => null,
+            build: () => NotesTab(),
           ),
           RouteTab(
             label: 'Profile',

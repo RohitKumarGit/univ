@@ -22,9 +22,11 @@ class Repo {
     return _user = null;
   }
 
+  var notes = <Note>[];
+
   Future<List<Note>> fetchNotes() async {
     await Future.delayed(const Duration(seconds: 2));
-    return [
+    return notes = [
       for (var i = 0; i < 10; ++i)
         Note(
           id: '$i',
