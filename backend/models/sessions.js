@@ -12,11 +12,10 @@ const SessionsSchema = new mongoose.Schema({
     },
     credit :{
         type:Number,
-        required:true,
-        min:1,
-        max:20
+        default:10
     },
     tags :[String],
+
     link :{
         type:String,
         required:true
@@ -25,14 +24,11 @@ const SessionsSchema = new mongoose.Schema({
         type:Date,
         required:true
     },
-    time :{
-        start :{
-            type:Date
-        },
-        end :{
-            type:Date
-        }
+    nrated:{
+        type:Number,
+        default:0
     },
+    time :Date,
     maxattendees :{
         type:Number,
         max:15,
@@ -51,6 +47,10 @@ const SessionsSchema = new mongoose.Schema({
         ref:"Student"
     }],
     done :{
+        type:Boolean,
+        default:false
+    },
+    rsvp :{
         type:Boolean,
         default:false
     },
