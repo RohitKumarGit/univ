@@ -1,6 +1,9 @@
 # UNIV 
 ## _Reward Based University Peer To Peer Teaching Solution_
 Bulit Under  "Let's Connect Track" for HackVerse 2.0 
+
+The serve is deployed on Heroku. Use `dummy@dummy.com` and `dummy123` as email and password respectively.
+
 ![Web 1920 – 1](https://user-images.githubusercontent.com/59276987/109405459-ae39a200-7996-11eb-8f06-6862a1591197.png)
 
  ##### ✔ Description  of the problem
