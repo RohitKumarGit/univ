@@ -27,7 +27,7 @@ class QuestionDetailScreen extends StatelessWidget {
       create: (ctx) => AnswersBloc(
         repo: ctx.read<Repo>(),
         question: q,
-      )..add(const AnswersEvent.fetch()),
+      ),
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(

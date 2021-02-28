@@ -67,15 +67,53 @@ class Repo {
     return true;
   }
 
-  Future<User> signIn() async {
-    await Future.delayed(const Duration(seconds: 2));
-    return _user = User(
-      credits: 100,
-      email: 'navaneethp123@outlook.com',
-      name: 'Navaneeth P',
-      studentId: '603abb7f656a48001587b382',
-      univId: '603abb0b656a48001587b381',
-    );
+  Future<User> signIn(String email) async {
+    if (email == null) {
+      print('null email');
+      return null;
+    }
+
+    final response = await http.get(
+        'https://hackverse.herokuapp.com/api/student/verify/?email=${email}');
+
+    print(response.statusCode);
+    print(response.body);
+
+    print('lol0');
+    if (response.statusCode != 200) {
+      print('returning here1');
+      return null;
+    }
+    print('lol1');
+
+    final d = jsonDecode(response.body);
+
+    print('lol2');
+    if (d['isNew'] ?? true) {
+      print('returning here');
+      return null;
+    }
+    print('lol3');
+
+    final ud = d['student'][2];
+
+    try {
+      _user = User(
+        credits: ud['credits'] as int,
+        name: ud['name'],
+        email: ud['email'],
+        studentId: ud['_id'],
+        univId: ud['univ']['_id'],
+      );
+    } catch (_, __) {
+      print(_);
+      print(__);
+      throw _;
+    }
+
+    print('here3');
+
+    return _user;
   }
 
   Future<void> signOut() async {
@@ -88,17 +126,22 @@ class Repo {
   Future<List<Note>> fetchNotes() async {
     await Future.delayed(const Duration(seconds: 2));
     return notes = [
-      for (var i = 0; i < 10; ++i)
-        Note(
-          id: '$i',
-          title: 'Good title legal definition of good title',
-          description:
-              'n. ownership of real property which is totally free of claims against it and therefore can be sold, transferred, or put up as security (placing a mortgage or deed of trust on the property).',
-          thumbnailLink:
-              'https://designartlovestory.files.wordpress.com/2011/04/davinci-note-book.jpg',
-          pdfLink: 'some-link',
-          tags: ['flutter', 'react', 'android', 'ruby'],
-        ),
+      Note(
+        id: '1',
+        title: 'DBMS Second sem.',
+        description: 'Covers all chapters with diagram. Follows the college curricullum.',
+        thumbnailLink: 'https://d3pbdh1dmixop.cloudfront.net/pdfexpert/Blog/how-to-take-notes-on-ipad/2.jpeg',
+        pdfLink: 'some-link',
+        tags: ['dbms'],
+      ),
+      Note(
+        id: '2',
+        title: 'Fast Forier Transform',
+        description: 'Detailed explanation with graphs and waves.',
+        thumbnailLink: 'https://lecturenotes.in/uploads/upload/5b39/5b39dd/5b39dd788c8e692c933ea462/cjj3zfu6q069d0pquz6cgdfyr.jpg',
+        pdfLink: 'some-link',
+        tags: ['math', 'fourier'],
+      ),
     ];
   }
 
@@ -107,17 +150,26 @@ class Repo {
   Future<List<Session>> fetchSessions() async {
     await Future.delayed(const Duration(seconds: 2));
     return sessions = [
-      for (var i = 0; i < 10; ++i)
-        Session(
-          title: 'Good title legal definition of good title',
-          link: 'some-link',
-          ratings: 5,
-          tags: ['flutter', 'react', 'android', 'ruby'],
-          dateTime: DateTime.now(),
-          maxAttendees: 10,
-          done: true,
-          cancelled: false,
-        ),
+      Session(
+        title: 'Machine learning in modern era!',
+        link: 'some-link',
+        ratings: 5,
+        tags: ['ml', 'ai'],
+        dateTime: DateTime(2021, 3, 7),
+        maxAttendees: 10,
+        done: true,
+        cancelled: false,
+      ),
+      Session(
+        title: 'Web development vs Data science',
+        link: 'some-link',
+        ratings: 5,
+        tags: ['ml', 'web'],
+        dateTime: DateTime(2021, 3, 10),
+        maxAttendees: 10,
+        done: true,
+        cancelled: false,
+      ),
     ];
   }
 
@@ -126,28 +178,50 @@ class Repo {
   Future<List<TeachingSession>> fetchTeachingSessions() async {
     await Future.delayed(const Duration(seconds: 2));
     return teachingSessions = [
-      for (var i = 0; i < 10; ++i)
-        TeachingSession(
-          title: 'Good title legal definition of good title',
-          link: 'some-link',
-          ratings: 5,
-          tags: ['flutter', 'react', 'android', 'ruby'],
-          dateTime: DateTime.now(),
-          maxAttendees: 10,
-          done: true,
-          cancelled: false,
-          credits: i,
-          student: 'Navaneeth',
-        ),
+      TeachingSession(
+        title: 'What\'s the fourier transfor of sin(x/2)?',
+        link: 'some-link',
+        ratings: 5,
+        tags: ['math', 'waves'],
+        dateTime: DateTime(2021, 3, 2),
+        maxAttendees: 10,
+        done: true,
+        cancelled: false,
+        credits: 4,
+        student: 'Navaneeth',
+      ),
+      TeachingSession(
+        title: 'What is signum(x)?',
+        link: 'some-link',
+        ratings: 5,
+        tags: ['math', 'waves'],
+        dateTime: DateTime(2021, 3, 6),
+        maxAttendees: 10,
+        done: true,
+        cancelled: false,
+        credits: 4,
+        student: 'Rohit',
+      ),
+      TeachingSession(
+        title: 'What is deadlock in process synchronization?',
+        link: 'some-link',
+        ratings: 5,
+        tags: ['os', 'hardware'],
+        dateTime: DateTime(2021, 3, 12),
+        maxAttendees: 10,
+        done: true,
+        cancelled: false,
+        credits: 2,
+        student: 'Devansi',
+      ),
     ];
   }
 
   var questions = <Question>[];
 
   Future<List<Question>> fetchQuestions() async {
-    final response = await http.get(
-      'https://hackverse.herokuapp.com/api/QNA/?univ_id=${user.univId}'
-    );
+    final response = await http
+        .get('https://hackverse.herokuapp.com/api/QNA/?univ_id=${user.univId}');
 
     if (response.statusCode != 200) {
       return null;
@@ -194,7 +268,7 @@ class Repo {
         tags: jd['tags'].cast<String>(),
       ));
     }
-    
+
     print(qs);
 
     questions = qs;
@@ -205,107 +279,6 @@ class Repo {
 
   Future<List<Answer>> fetchAnswers() async {
     await Future.delayed(Duration(seconds: 0));
-    return answers = [
-      Answer(
-        date: DateTime.now(),
-        accepted: false,
-        id: '1',
-        name: 'Navaneeth',
-        answer: '''(This should've been a comment but there is no formatting)
-
-Use trailing commas in the arguments list.
-
-
-Without trailing commas:
-```
-Foo(arg1: ..., arg2: ...)
-```
-
-
-With trailing commas:
-```
-Foo(
-  arg1: ...,
-  arg2: ..., // notice the comma
-)
-```
-
-for eg.:
-```
-decoration: BoxDecoration(
-  image: DecorationImage(
-    image: AssetImage('assets/\$bgImage'), 
-    fit: BoxFit.cover, // add a comma here
-  ), // add a comma here
-),
-```''',
-      ),
-      Answer(
-        date: DateTime.now(),
-        accepted: true,
-        id: '1',
-        name: 'Navaneeth',
-        answer:
-            '''After deletion `DropdownButton` is given a `value`(`selectedStand`) that none of the `DropdownMenuItem`s contain. So, first check if a document exists whose `id` is `selectedStand` otherwise set `value` to `null`.
-
-```
-// get the document with id as selectedStand. Will be null if it doesn't exist.
-var selectedDoc = snapshot.data.documents.firstWhere(
-  (doc) => doc.documentID == selectedStand,
-  orElse: () => null,
-);
-
-DropdownButton(
-  // assign selectedDoc's id (same as selectedStand) if exists
-  // otherwise null
-  value = selectedDoc?.documentID,
-  // ...
-),
-```
-
-The logic should not be in `onChanged` but outside of `DropdownButton` within the `StreamBuilder`.
-
-```
-selectedDoc = snapshot.data.documents.firstWhere(
-  (doc) => doc.documentID == selectedStand,
-  orElse: () => null,
-);
-
-return Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: <Widget>[
-    DropdownButton(
-      items: standItems,
-      onChanged: (standValue) {
-         setState(() {
-         selectedStand = standValue;
-        });
-      },
-      value: selectedDoc?.documentID,
-      isExpanded: false,
-      hint: new Text(
-        "Choose stand to delete"
-      ),
-   ),
-  ],
-),
-```
-
-Alternatively you could set `selectedStand = selectedDoc?.documentID` right after finding `selectedDoc`, so that `selectedStand` will always have a valid value.''',
-      ),
-      Answer(
-        date: DateTime.now(),
-        accepted: false,
-        id: '1',
-        name: 'Navaneeth',
-        answer: '''Something was changed ,i.e, added, removed, modified
-
-```
-if (snapshot.data.documentChanges.length != 0) {
-  // Some changes were made. Show Indicator
-}
-```''',
-      ),
-    ];
+    return answers = [];
   }
 }

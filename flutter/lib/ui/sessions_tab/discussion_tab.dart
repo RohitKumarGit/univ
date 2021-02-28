@@ -3,32 +3,55 @@ part of 'sessions_tab.dart';
 class DiscussionTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SessionsBloc, SessionsState>(
-      builder: (context, state) {
-        return state.maybeWhen(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          orElse: () {
-            final sessions = context.watch<Repo>().sessions;
-            return RefreshIndicator(
-              onRefresh: () {
-                final c = Completer<void>();
-                context.read<SessionsBloc>().add(SessionsEvent.refresh(c));
-                return c.future;
-              },
-              child: ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics()),
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                itemCount: sessions.length,
-                itemBuilder: (context, i) {
-                  return SessionTile(sessions[i]);
+    return Consumer<SAppBarState>(builder: (context, appBarState, _) {
+      return BlocBuilder<SessionsBloc, SessionsState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            orElse: () {
+              var sessions = context.watch<Repo>().sessions;
+              switch (appBarState.filter) {
+                case SFilter.attendees:
+                  sessions.sort(
+                      (q1, q2) => q2.maxAttendees.compareTo(q1.maxAttendees));
+                  break;
+                case SFilter.date:
+                  sessions.sort((q1, q2) => q2.dateTime.compareTo(q1.dateTime));
+                  break;
+              }
+              if (appBarState.tags.isNotEmpty) {
+                sessions = sessions.where((q) {
+                  return Set<String>.from(q.tags)
+                      .intersection(Set<String>.from(appBarState.tags))
+                      .isNotEmpty;
+                }).toList();
+              }
+              if (appBarState.isSearch) {
+                sessions = sessions.where((q) {
+                  return q.title.contains(appBarState.textController.text);
+                }).toList();
+              }
+              return RefreshIndicator(
+                onRefresh: () {
+                  final c = Completer<void>();
+                  context.read<SessionsBloc>().add(SessionsEvent.refresh(c));
+                  return c.future;
                 },
-              ),
-            );
-          },
-        );
-      },
-    );
+                child: ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(
+                      parent: BouncingScrollPhysics()),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  itemCount: sessions.length,
+                  itemBuilder: (context, i) {
+                    return SessionTile(sessions[i]);
+                  },
+                ),
+              );
+            },
+          );
+        },
+      );
+    });
   }
 }
 

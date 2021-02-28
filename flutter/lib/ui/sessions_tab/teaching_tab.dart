@@ -8,7 +8,28 @@ class TeachingTab extends StatelessWidget {
         return state.maybeWhen(
           loading: () => const Center(child: CircularProgressIndicator()),
           orElse: () {
-            final sessions = context.watch<Repo>().teachingSessions;
+            var sessions = context.watch<Repo>().teachingSessions;
+            final appBarState = context.read<SAppBarState>();
+            switch (appBarState.filter) {
+              case SFilter.attendees:
+                sessions.sort((q1, q2) => q2.maxAttendees.compareTo(q1.maxAttendees));
+                break;
+              case SFilter.date:
+                sessions.sort((q1, q2) => q2.dateTime.compareTo(q1.dateTime));
+                break;
+            }
+            if (appBarState.tags.isNotEmpty) {
+              sessions = sessions.where((q) {
+                return Set<String>.from(q.tags)
+                    .intersection(Set<String>.from(appBarState.tags))
+                    .isNotEmpty;
+              }).toList();
+            }
+            if (appBarState.isSearch) {
+              sessions = sessions.where((q) {
+                return q.title.contains(appBarState.textController.text);
+              }).toList();
+            }
             return RefreshIndicator(
               onRefresh: () {
                 final c = Completer<void>();

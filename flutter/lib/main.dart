@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
+import 'package:firebase_core/firebase_core.dart';
 
 import 'blocs/blocs.dart';
 import 'blocs/user_bloc/user_bloc.dart';
@@ -14,6 +14,9 @@ import 'ui/questions_tab/questions_tab.dart';
 import 'ui/sessions_tab/s_app_bar_state.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   final repo = Repo();
   final userBloc = UserBloc(repo: repo);
   runApp(MyApp(

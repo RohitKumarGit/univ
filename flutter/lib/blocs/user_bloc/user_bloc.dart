@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../repo/repo.dart';
 part 'user_bloc.freezed.dart';
@@ -31,6 +33,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   final Repo _repo;
 
+  final _fa = FirebaseAuth.instance;
+
   @override
   Stream<UserState> mapEventToState(UserEvent event) {
     return event.map(
@@ -41,8 +45,23 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   Stream<UserState> _signIn(_SignIn event) async* {
     yield const UserState.signingIn();
-    await _repo.signIn();
-    yield const UserState.signedIn();
+
+    try {
+      final cred = await _fa.signInWithEmailAndPassword(
+        email: event.email,
+        password: event.password,
+      );
+
+      final user = await _repo.signIn(cred.user.email);
+      if (user != null) {
+        print('signedIn');
+        yield const UserState.signedIn();
+      } else {
+        yield const UserState.initial();
+      }
+    } catch (_) {
+      yield const UserState.initial();
+    }
   }
 
   Stream<UserState> _signOut(_SignOut event) async* {
