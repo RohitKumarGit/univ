@@ -116,7 +116,7 @@ Router.get('/verify', function _callee4(req, res) {
           _context4.prev = 0;
           _context4.next = 3;
           return regeneratorRuntime.awrap(Student.find({
-            uid: req.query.email
+            email: req.query.email
           }).populate("univ"));
 
         case 3:
