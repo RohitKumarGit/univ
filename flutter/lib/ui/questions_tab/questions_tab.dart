@@ -25,18 +25,24 @@ extension QFilterExt on QFilter {
   // ignore: missing_return
   String get title {
     switch (this) {
-      case QFilter.date: return 'Date';
-      case QFilter.votes: return 'Votes';
-      case QFilter.answers: return 'Answers';
+      case QFilter.date:
+        return 'Date';
+      case QFilter.votes:
+        return 'Votes';
+      case QFilter.answers:
+        return 'Answers';
     }
   }
 
   // ignore: missing_return
   IconData get icon {
     switch (this) {
-      case QFilter.date: return FontAwesomeIcons.calendar;
-      case QFilter.votes: return FontAwesomeIcons.chevronUp;
-      case QFilter.answers: return FontAwesomeIcons.commentAlt;
+      case QFilter.date:
+        return FontAwesomeIcons.calendar;
+      case QFilter.votes:
+        return FontAwesomeIcons.chevronUp;
+      case QFilter.answers:
+        return FontAwesomeIcons.commentAlt;
     }
   }
 }
@@ -56,7 +62,7 @@ class QuestionsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<QAppBarState>(
-      builder: (context, appBarState, questionList) {
+      builder: (context, appBarState, _) {
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -86,7 +92,7 @@ class QuestionsTab extends StatelessWidget {
                         ),
                         IconButton(
                           icon: const Icon(Icons.search),
-                          onPressed: () {},
+                          onPressed: appBarState.search,
                         ),
                       ],
                     )
@@ -102,13 +108,15 @@ class QuestionsTab extends StatelessWidget {
                               builder: (context, state, _) {
                                 const filters = QFilter.values;
                                 return FiltersList(
-                                  filters: filters.map(
-                                    (f) => FilterConf(
-                                      value: f,
-                                      icon: f.icon,
-                                      title: f.title,
-                                    ),
-                                  ).toList(),
+                                  filters: filters
+                                      .map(
+                                        (f) => FilterConf(
+                                          value: f,
+                                          icon: f.icon,
+                                          title: f.title,
+                                        ),
+                                      )
+                                      .toList(),
                                   selectedFilter: state.filter,
                                   onTap: (f) => state.filter = f,
                                 );
@@ -123,7 +131,8 @@ class QuestionsTab extends StatelessWidget {
                         ),
                         MainActionButton(
                           label: 'Ask',
-                          onPressed: () => Navigator.of(context).push(AskScreen.route()),
+                          onPressed: () =>
+                              Navigator.of(context).push(AskScreen.route()),
                           color: Colors.green,
                         ),
                       ],
@@ -136,37 +145,72 @@ class QuestionsTab extends StatelessWidget {
                 tags: appBarState.tags,
                 onTap: (t) => context.read<QAppBarState>().removeTag(t),
               ),
-              Expanded(child: questionList),
+              Expanded(
+                child: BlocBuilder<QuestionsBloc, QuestionsState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      loading: () =>
+                          const Center(child: CircularProgressIndicator()),
+                      orElse: () {
+                        var questions = List<Question>.from(
+                            context.watch<Repo>().questions);
+                        switch (appBarState.filter) {
+                          case QFilter.answers:
+                            questions.sort(
+                                (q1, q2) => q2.answers.compareTo(q1.answers));
+                            break;
+                          case QFilter.votes:
+                            questions
+                                .sort((q1, q2) => q2.votes.compareTo(q1.votes));
+                            break;
+                          case QFilter.date:
+                            questions
+                                .sort((q1, q2) => q2.date.compareTo(q1.date));
+                            break;
+                        }
+                        if (appBarState.tags.isNotEmpty) {
+                          questions = questions.where((q) {
+                            return Set<String>.from(q.tags)
+                                .intersection(
+                                    Set<String>.from(appBarState.tags))
+                                .isNotEmpty;
+                          }).toList();
+                        }
+                        if (appBarState.isSearch) {
+                          questions = questions.where((q) {
+                            return q.title.contains(
+                                    appBarState.textController.text) ||
+                                q.description
+                                    .contains(appBarState.textController.text);
+                          }).toList();
+                        }
+                        return RefreshIndicator(
+                          onRefresh: () {
+                            final c = Completer<void>();
+                            context
+                                .read<QuestionsBloc>()
+                                .add(QuestionsEvent.refresh(c));
+                            return c.future;
+                          },
+                          child: ListView.builder(
+                            physics: const AlwaysScrollableScrollPhysics(
+                                parent: BouncingScrollPhysics()),
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            itemCount: questions.length,
+                            itemBuilder: (context, i) {
+                              return QuestionTile(questions[i]);
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         );
       },
-      child: BlocBuilder<QuestionsBloc, QuestionsState>(
-        builder: (context, state) {
-          return state.maybeWhen(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            orElse: () {
-              final questions = context.watch<Repo>().questions;
-              return RefreshIndicator(
-                onRefresh: () {
-                  final c = Completer<void>();
-                  context.read<QuestionsBloc>().add(QuestionsEvent.refresh(c));
-                  return c.future;
-                },
-                child: ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(
-                      parent: BouncingScrollPhysics()),
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  itemCount: questions.length,
-                  itemBuilder: (context, i) {
-                    return QuestionTile(questions[i]);
-                  },
-                ),
-              );
-            },
-          );
-        },
-      ),
     );
   }
 }
@@ -194,7 +238,8 @@ class QuestionTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ListTile(
-                    onTap: () => Navigator.of(context).push(QuestionDetailScreen.route(q)),
+                    onTap: () => Navigator.of(context)
+                        .push(QuestionDetailScreen.route(q)),
                     leading: FittedBox(
                       child: Column(
                         children: [
