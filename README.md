@@ -53,7 +53,7 @@ cd flutter
 flutter run
 ```
 
-The apk for the flutter application is provided in the releases section of the github repository.
+The apk for the flutter application is provided in the releases section of the github repository. 
 
 ![Instagram Post – 1](https://user-images.githubusercontent.com/59276987/109385463-0c746f80-791a-11eb-89d9-33a60c133527.png)
 
