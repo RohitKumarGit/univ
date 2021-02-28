@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "821803565237",
+    "firebase_url": "https://twitter-clone-40897.firebaseio.com",
+    "project_id": "twitter-clone-40897",
+    "storage_bucket": "twitter-clone-40897.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821803565237:android:e7e2d8c10474c50e413efc",
+        "android_client_info": {
+          "package_name": "com.hackverse.univ"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "821803565237-jj6e71kcef6o4vn81f352749a9vk55b8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxbGLFyJJvvggB6vnts2M6TQgOz0wN09M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "821803565237-jj6e71kcef6o4vn81f352749a9vk55b8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

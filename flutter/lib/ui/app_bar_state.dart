@@ -15,7 +15,7 @@ class AppBarState extends ChangeNotifier {
     }
   }
 
-  final _tags = <String>['flutter', 'android', 'nodejs', 'ruby', 'python', 'ml'];
+  final _tags = <String>[];
   
   void addTag() {
     final tag = textController.text;
@@ -34,4 +34,8 @@ class AppBarState extends ChangeNotifier {
   int get tagsLength => _tags.length;
 
   List<String> get tags => [..._tags.reversed];
+
+  void search() {
+    notifyListeners();
+  }
 }
