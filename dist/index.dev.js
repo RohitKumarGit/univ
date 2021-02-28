@@ -26,9 +26,10 @@ var student = require('./backend/models/student');
 
 var university = require('./backend/models/university');
 
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'); //mongodb+srv://user12:oucBcONNqEYsDm2i@cluster0.wkbbu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 
-var uri = "mongodb+srv://user:uvOyX5UA6I2mjplk@cluster0.azmit.mongodb.net/NUCLEUS?retryWrites=true&w=majority";
+
+var uri = "mongodb+srv://user:uvOyX5UA6I2mjplk@cluster0.azmit.mongodb.net/project?retryWrites=true&w=majority";
 mongoose.connect(uri, {
   useNewUrlParser: "true"
 });

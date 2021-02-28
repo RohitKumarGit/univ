@@ -36,7 +36,7 @@ Router.get('/',async (req,res)=>{
 })
 Router.get('/verify',async (req,res)=>{
     try {
-        const student = await Student.find({uid:req.query.uid}).populate("univ")
+        const student = await Student.find({uid:req.query.email}).populate("univ")
         if(student.length){
             res.send({
                 isNew : false,

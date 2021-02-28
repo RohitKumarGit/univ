@@ -13,7 +13,8 @@ const sessions = require('./backend/models/sessions')
 const student = require('./backend/models/student')
 const university = require('./backend/models/university')
 const mongoose = require('mongoose')
-const uri = "mongodb+srv://user:uvOyX5UA6I2mjplk@cluster0.azmit.mongodb.net/NUCLEUS?retryWrites=true&w=majority"
+//mongodb+srv://user12:oucBcONNqEYsDm2i@cluster0.wkbbu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+const uri = "mongodb+srv://user:uvOyX5UA6I2mjplk@cluster0.azmit.mongodb.net/project?retryWrites=true&w=majority"
 mongoose.connect(uri, {
     useNewUrlParser: "true",
   })
