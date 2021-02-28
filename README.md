@@ -1,6 +1,8 @@
 # UNIV 
-## _University Peer To Peer Teaching Solution_
+## _Reward Based University Peer To Peer Teaching Solution_
 Bulit Under  "Let's Connect Track" for HackVerse 2.0 
+![Web 1920 – 1](https://user-images.githubusercontent.com/59276987/109405459-ae39a200-7996-11eb-8f06-6862a1591197.png)
+
  ##### ✔ Description  of the problem
  We all students have faced the time when we missed one or two classes due to which we are not able to cope-up with what's going on in the class. Moreover these backlogs keeps getting added and when the D-day (exams) comes we find ourselves in a miserable situation where we know the syllabus but we are actuallly wasting most of our valuable watching number of youtube videos to understand a simple topic or calling the freind who promised to teach that topic at the end but not picking up 😒.
 ### ✔  And Here's the solution for everything stated above 
